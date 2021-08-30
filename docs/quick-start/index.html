@@ -74,9 +74,9 @@
 <div id="0"><h2>引言</h2></div>
 
 <p>
-高精度蛋白结构预测能够为生命科学和医学研究带来丰富的启示，成为改变生命科学研究范式的重要契机。快速精准的大规模蛋白结构预测能够激发基础科学、药物研发、合成生物学等方面的未来发展。DeepMind 团队开发的基于深度神经网络的 AlphaFold  方法达到了前所未有的预测准确度，解决了半世纪以来生物学领域最大的挑战，为推进科学进步作出重要贡献。 2021 年 7 月，AlphaFold 的细节在  Nature 杂志上公开<sup id="fnref:fn-1" role="doc-noteref"><a href="#fn:fn-1" class="footnote" rel="footnote">1</a></sup> ，代码也同时开源<sup id="fnref:fn-2" role="doc-noteref"><a href="#fn:fn-2" class="footnote" rel="footnote">1</a></sup> 。
+高精度蛋白结构预测能够为生命科学和医学研究带来丰富的启示，成为改变生命科学研究范式的重要契机。快速精准的大规模蛋白结构预测能够激发基础科学、药物研发、合成生物学等方面的未来发展。DeepMind 团队开发的基于深度神经网络的 AlphaFold  方法达到了前所未有的预测准确度，解决了半世纪以来生物学领域最大的挑战，为推进科学进步作出重要贡献。 2021 年 7 月，AlphaFold 的细节在  Nature 杂志上公开<sup id="fnref:fn-1" role="doc-noteref"><a href="#fn:fn-1" class="footnote" rel="footnote">1</a></sup> ，代码也同时开源<sup id="fnref:fn-2" role="doc-noteref"><a href="#fn:fn-2" class="footnote" rel="footnote">2</a></sup> 。
 </p><p>
-AlphaFold 建立了蛋白序列与结构之间的联系，有助于人们更好的发现蛋白的功能。在蛋白功能研究中，解析一个蛋白的结构只能得到部分的信息，而要知道整个蛋白的功能，往往需要解析很多个蛋白，以便通过结构对比、蛋白质互作分析等方法找出其中蕴含的结构范式。因此，AlphaFold 需要能够胜任多条蛋白序列的预测任务，计算规模从突变体库的几十、上百个蛋白，上至蛋白组级别的成千上万条序列。AlphaFold 的计算效率也因此被寄予厚望。然而，测试发现，AlphaFold 代码由于新近发布，CPU、GPU、I/O 等均缺少优化，计算效率较低，难以满足大规模的计算需求[2]。
+AlphaFold 建立了蛋白序列与结构之间的联系，有助于人们更好的发现蛋白的功能。在蛋白功能研究中，解析一个蛋白的结构只能得到部分的信息，而要知道整个蛋白的功能，往往需要解析很多个蛋白，以便通过结构对比、蛋白质互作分析等方法找出其中蕴含的结构范式。因此，AlphaFold 需要能够胜任多条蛋白序列的预测任务，计算规模从突变体库的几十、上百个蛋白，上至蛋白组级别的成千上万条序列。AlphaFold 的计算效率也因此被寄予厚望。然而，测试发现，AlphaFold 代码由于新近发布，CPU、GPU、I/O 等均缺少优化，计算效率较低，难以满足大规模的计算需求<sup id="fnref:fn-2" role="doc-noteref"><a href="#fn:fn-2" class="footnote" rel="footnote">2</a></sup>。
 </p><p>
 上海交通大学高性能计算团队第一时间展开了 AlphaFold 的部署和优化，通过解决 CPU、GPU、I/O 等问题，计算效率大幅提升，每块 NVIDIA Tesla V100 卡的单日蛋白计算总量增长 12 倍，可以满足大规模计算需求，同时可节省 GPU 计算资源，有效解决 I/O 瓶颈问题。
 </p><p>
@@ -85,7 +85,7 @@ AlphaFold 部署分两种方法：docker 法和 conda 法，分别提供基础�
 AlphaFold 计算效率优化从以下四个层次进行：
 </p><p>
 <ul>
-    <li>CPU 与 GPU 计算分离。CPU 与 GPU 分离后可大幅缩短 GPU 上的计算时间，且分离后的 CPU 支持高通量大规模计算。代码已上传至 GitHub [3]；
+    <li>CPU 与 GPU 计算分离。CPU 与 GPU 分离后可大幅缩短 GPU 上的计算时间，且分离后的 CPU 支持高通量大规模计算。代码已上传至 GitHub <sup id="fnref:fn-3" role="doc-noteref"><a href="#fn:fn-3" class="footnote" rel="footnote">3</a></sup>；
     <li>CPU 并行优化。CPU 计算中的三个搜索任务，由串行改为并行后，CPU 计算增速一倍；
     <li>GPU 优化。调节 JAX 显存管理，以保障更长序列的蛋白计算。略去 4 个得分较低的模型优化，加快 GPU 计算；
     <li>I/O 优化。将海量数据集放置于本地、使用 NVMe SSD、或使用内存持久化等方法，解决 I/O 瓶颈，加速计算。
@@ -95,7 +95,7 @@ AlphaFold 计算效率优化从以下四个层次进行：
 <div id="1"><h2>AlphaFold 介绍</h2></div>
 
 <p>
-蛋白结构精准预测对生物医药领域至关重要。为了找到最优的蛋白质结构预测方法，CASP (Critical Assessment of protein Structure Prediction) 国际会议每两年举办一次，邀请实验学家们提供未公开结构的蛋白质序列，用于评估当年参赛的结构预测方法的精确度。2020 年之前，尽管历届 CASP 大会上计算生物学家们已积累了许多蛋白结构预测的算法，形成诸多可行的方案，如 Rosetta，I-TASSER，RaptorX 等，但预测结果始终难以挑战实验的精确度。2020 年的 CASP14 大会上，DeepMind 团队带来了开创性的突破，AlphaFold2 方法实现了前所未有的预测精确度，精确度中位数达 92.4 GDT（满分 100 分）[1]。
+蛋白结构精准预测对生物医药领域至关重要。为了找到最优的蛋白质结构预测方法，CASP (Critical Assessment of protein Structure Prediction) 国际会议每两年举办一次，邀请实验学家们提供未公开结构的蛋白质序列，用于评估当年参赛的结构预测方法的精确度。2020 年之前，尽管历届 CASP 大会上计算生物学家们已积累了许多蛋白结构预测的算法，形成诸多可行的方案，如 Rosetta<sup id="fnref:fn-4" role="doc-noteref"><a href="#fn:fn-4" class="footnote" rel="footnote">4</a></sup>，I-TASSER<sup id="fnref:fn-5" role="doc-noteref"><a href="#fn:fn-5" class="footnote" rel="footnote">5</a></sup>，RaptorX<sup id="fnref:fn-6" role="doc-noteref"><a href="#fn:fn-6" class="footnote" rel="footnote">6</a></sup> 等，但预测结果始终难以挑战实验的精确度。2020 年的 CASP14 大会上，DeepMind 团队带来了开创性的突破，AlphaFold2 方法实现了前所未有的预测精确度，精确度中位数达 92.4 GDT（满分 100 分）<sup id="fnref:fn-1" role="doc-noteref"><a href="#fn:fn-1" class="footnote" rel="footnote">1</a></sup>。
 </p><p>
 AlphaFold2 相较于 2018 年的 AlphaFold1，是个全新的模型，在模型架构层面上有了很大的改动，例如不再使用卷积神经网络，而改用 基于Attention的端到端架构。再加上各种精妙的细节，AlphaFold2 精确度得到了质的飞跃。本文中的 AlphaFold 分析和优化均仅针对 AlphaFold2。
 </p>
@@ -279,13 +279,13 @@ AlphaFold 部署具有一定难度，体现在硬件、软件、数据、文档�
 <div id="2.2"><h3>docker 安装方法</h3></div>
 
 <p>
-docker 方法可参考 AlphaFold GitHub 官方的 Dockerfile 进行安装[2]。尽管官方建议使用 CUDA 11 版本，实际上 CUDA 10 版本也支持。安装和使用中需注意几处相对/绝对路径的设置。
+docker 方法可参考 AlphaFold GitHub 官方的 Dockerfile 进行安装<sup id="fnref:fn-2" role="doc-noteref"><a href="#fn:fn-2" class="footnote" rel="footnote">2</a></sup>。尽管官方建议使用 CUDA 11 版本，实际上 CUDA 10 版本也支持。安装和使用中需注意几处相对/绝对路径的设置。
 </p>
 
 <div id="2.3"><h3>conda 安装方法</h3></div>
 
 <p>
-conda 安装更为灵活，支持更多选项和定制修改，也易通过简易的文件替换来紧随官方更新。CUDA 10 版本的安装可参见 GitHub \cite{Alphafoldlocal}。
+conda 安装更为灵活，支持更多选项和定制修改，也易通过简易的文件替换来紧随官方更新。CUDA 10 版本的安装可参见 GitHub <sup id="fnref:fn-7" role="doc-noteref"><a href="#fn:fn-7" class="footnote" rel="footnote">7</a></sup>。
 </p><p>
 conda 安装注意事项：
 </p><p>
@@ -445,7 +445,7 @@ CPU 与 GPU 计算拆分后，单个蛋白结构预测所需的时间并无明�
 我们测试选用的结构预测中共有 103 个蛋白（其中 CPU 计算部分实际运行了 302 个蛋白，GPU 计算了其中的 103 个蛋白），这个规模可反映出高通量蛋白结构预测计算的特点。测试结果如图 \ref{Fig.CPU} 和 \ref{Fig.GPU} 所示。测试中，GPU 计算运行于一台 DGX-2 节点，包含 16 块 NVIDIA Tesla V100 GPU 卡。
 
 </p><p>
-测试结果发现，CPU 部分的计算确实呈现时间波动性。大部分 CPU 运行时间分布在 1 至 4 小时，只有极少数的计算超过 7 小时（且这些任务往往内存溢出报错）。而在 GPU 部分，大部分任务运行时间分布在 0.1 至 0.4 小时之间，平均运行时间不到 20 分钟。整体来看，一台包含 16 块 NVIDIA Tesla V100 卡的 DGX-2 上花费 1.2 小时，就完成 103 个蛋白的结构预测。平均下来，8 台 DGX-2 运行 48 小时能够完成超过 3 万个蛋白的结构预测，胜过 AlphaFold Nature 论文 \cite{tunyasuvunakool2021highly} 中预测的人类蛋白质组数量 (23,391 个)；8 台 DGX-2 运行 120 小时即可完成超过 8 万个蛋白的预测，这个数量已经超过完整的人类蛋白质组 (78,120 个)。
+测试结果发现，CPU 部分的计算确实呈现时间波动性。大部分 CPU 运行时间分布在 1 至 4 小时，只有极少数的计算超过 7 小时（且这些任务往往内存溢出报错）。而在 GPU 部分，大部分任务运行时间分布在 0.1 至 0.4 小时之间，平均运行时间不到 20 分钟。整体来看，一台包含 16 块 NVIDIA Tesla V100 卡的 DGX-2 上花费 1.2 小时，就完成 103 个蛋白的结构预测。平均下来，8 台 DGX-2 运行 48 小时能够完成超过 3 万个蛋白的结构预测，胜过 AlphaFold Nature 论文<sup id="fnref:fn-8" role="doc-noteref"><a href="#fn:fn-8" class="footnote" rel="footnote">8</a></sup> 中预测的人类蛋白质组数量 (23,391 个)；8 台 DGX-2 运行 120 小时即可完成超过 8 万个蛋白的预测，这个数量已经超过完整的人类蛋白质组 (78,120 个)。
 </p>
 
 <div id="4.3"><h3>CPU 并行加速后</h3></div>
