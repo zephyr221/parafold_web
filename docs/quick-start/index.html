@@ -15,7 +15,7 @@
 <body>
     <nav class="nav-main">
       <ul>
-        <li class="logo"><a class="hvr-ripple-out" href="../index.html">P</a></li>
+        <li class="logo"><a class="hvr-ripple-out" href="../../index.html">P</a></li>
         <li><a  class="hvr-pop button" href="https://parafold.sjtu.edu.cn/about/">About</a></li>
         <li><a  href="https://parafold.sjtu.edu.cn/docs/quick-start/">Quick-Start</a></li>
         <li><a  class="hvr-pop button" href="https://parafold.sjtu.edu.cn/github/">GitHub</a></li>
@@ -38,9 +38,9 @@
 <h2>引言</h2>
 
 <p>
-高精度蛋白结构预测能够为生命科学和医学研究带来丰富的启示，成为改变生命科学研究范式的重要契机。快速精准的大规模蛋白结构预测能够激发基础科学、药物研发、合成生物学等方面的未来发展。DeepMind 团队开发的基于深度神经网络的 AlphaFold  方法达到了前所未有的预测准确度，解决了半世纪以来生物学领域最大的挑战，为推进科学进步作出重要贡献。 2021 年 7 月，AlphaFold 的细节在  Nature 杂志上公开\cite{jumper2021highly}，代码也同时开源\cite{AlphaFoldgithub}。
+高精度蛋白结构预测能够为生命科学和医学研究带来丰富的启示，成为改变生命科学研究范式的重要契机。快速精准的大规模蛋白结构预测能够激发基础科学、药物研发、合成生物学等方面的未来发展。DeepMind 团队开发的基于深度神经网络的 AlphaFold  方法达到了前所未有的预测准确度，解决了半世纪以来生物学领域最大的挑战，为推进科学进步作出重要贡献。 2021 年 7 月，AlphaFold 的细节在  Nature 杂志上公开[1]，代码也同时开源[2]。
 </p><p>
-AlphaFold 建立了蛋白序列与结构之间的联系，有助于人们更好的发现蛋白的功能。在蛋白功能研究中，解析一个蛋白的结构只能得到部分的信息，而要知道整个蛋白的功能，往往需要解析很多个蛋白，以便通过结构对比、蛋白质互作分析等方法找出其中蕴含的结构范式。因此，AlphaFold 需要能够胜任多条蛋白序列的预测任务，计算规模从突变体库的几十、上百个蛋白，上至蛋白组级别的成千上万条序列。AlphaFold 的计算效率也因此被寄予厚望。然而，测试发现，AlphaFold 代码由于新近发布，CPU、GPU、I/O 等均缺少优化，计算效率较低，难以满足大规模的计算需求\cite{AlphaFoldgithub}。
+AlphaFold 建立了蛋白序列与结构之间的联系，有助于人们更好的发现蛋白的功能。在蛋白功能研究中，解析一个蛋白的结构只能得到部分的信息，而要知道整个蛋白的功能，往往需要解析很多个蛋白，以便通过结构对比、蛋白质互作分析等方法找出其中蕴含的结构范式。因此，AlphaFold 需要能够胜任多条蛋白序列的预测任务，计算规模从突变体库的几十、上百个蛋白，上至蛋白组级别的成千上万条序列。AlphaFold 的计算效率也因此被寄予厚望。然而，测试发现，AlphaFold 代码由于新近发布，CPU、GPU、I/O 等均缺少优化，计算效率较低，难以满足大规模的计算需求[2]。
 </p><p>
 上海交通大学高性能计算团队第一时间展开了 AlphaFold 的部署和优化，通过解决 CPU、GPU、I/O 等问题，计算效率大幅提升，每块 NVIDIA Tesla V100 卡的单日蛋白计算总量增长 12 倍，可以满足大规模计算需求，同时可节省 GPU 计算资源，有效解决 I/O 瓶颈问题。
 </p><p>
@@ -49,7 +49,7 @@ AlphaFold 部署分两种方法：docker 法和 conda 法，分别提供基础�
 AlphaFold 计算效率优化从以下四个层次进行：
 </p><p>
 <ul>
-    <li>CPU 与 GPU 计算分离。CPU 与 GPU 分离后可大幅缩短 GPU 上的计算时间，且分离后的 CPU 支持高通量大规模计算。分离的代码已上传至 GitHub \cite{ParallelFold}；
+    <li>CPU 与 GPU 计算分离。CPU 与 GPU 分离后可大幅缩短 GPU 上的计算时间，且分离后的 CPU 支持高通量大规模计算。分离的代码已上传至 GitHub [3]；
     <li>CPU 并行优化。CPU 计算中的三个搜索任务，由串行改为并行后，CPU 计算增速一倍；
     <li>GPU 优化。调节 JAX 显存管理，以保障更长序列的蛋白计算。略去 4 个得分较低的模型优化，加快 GPU 计算；
     <li>I/O 优化。将海量数据集放置于本地、使用 NVMe SSD、或使用内存持久化等方法，解决 I/O 瓶颈，加速计算。
@@ -58,10 +58,11 @@ AlphaFold 计算效率优化从以下四个层次进行：
 <h2>AlphaFold 介绍</h2>
 
 <p>
-蛋白结构精准预测对生物医药领域至关重要。为了找到最优的蛋白质结构预测方法，CASP (Critical Assessment of protein Structure Prediction) 国际会议每两年举办一次，邀请实验学家们提供未公开结构的蛋白质序列，用于评估当年参赛的结构预测方法的精确度。2020 年之前，尽管历届 CASP 大会上计算生物学家们已积累了许多蛋白结构预测的算法，形成诸多可行的方案，如 Rosetta \cite{simons1999ab}，I-TASSER \cite{zhang2018template}，RaptorX \cite{wang2016raptorx} 等，但预测结果始终难以挑战实验的精确度。2020 年的 CASP14 大会上，DeepMind 团队带来了开创性的突破，AlphaFold2 方法实现了前所未有的预测精确度，精确度中位数达 92.4 GDT（满分 100 分）\cite{jumper2021highly}。
-</p><p></p>
+蛋白结构精准预测对生物医药领域至关重要。为了找到最优的蛋白质结构预测方法，CASP (Critical Assessment of protein Structure Prediction) 国际会议每两年举办一次，邀请实验学家们提供未公开结构的蛋白质序列，用于评估当年参赛的结构预测方法的精确度。2020 年之前，尽管历届 CASP 大会上计算生物学家们已积累了许多蛋白结构预测的算法，形成诸多可行的方案，如 Rosetta，I-TASSER，RaptorX 等，但预测结果始终难以挑战实验的精确度。2020 年的 CASP14 大会上，DeepMind 团队带来了开创性的突破，AlphaFold2 方法实现了前所未有的预测精确度，精确度中位数达 92.4 GDT（满分 100 分）[1]。
+</p><p>
 AlphaFold2 相较于 2018 年的 AlphaFold1，是个全新的模型，在模型架构层面上有了很大的改动，例如不再使用卷积神经网络，而改用 基于Attention的端到端架构。再加上各种精妙的细节，AlphaFold2 精确度得到了质的飞跃。本文中的 AlphaFold 分析和优化均仅针对 AlphaFold2。
 </p>
+
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=0.48\textwidth]{FIG/frame.png}
@@ -71,44 +72,46 @@ AlphaFold2 相较于 2018 年的 AlphaFold1，是个全新的模型，在模型�
 
 <h2>AlphaFold 架构</h2>
 
-
+<p></p>
 AlphaFold 架构分为两大部分：序列特征生成和神经网络预测。
-
+</p><p>
 第一部分的序列特征包含一维序列特征（多序列比对，MSA）和二维关联特征（残基相关图与模版检索）。多序列比对是指在序列数据库中找与原序列接近的序列，按对应的氨基酸位点做比对。具体而言，通过预测蛋白中每对氨基酸之间的距离分布和化学键角度，结合模仿人类注意力的 Attention 网络架构，既关注局部细节，又聚焦蛋白质结构信息的长距离依赖性，从而实现全面准确的框架预测。
-
+</p><p>
 第二部分的神经网络预测，将蛋白结构和生物信息整合到深度学习算法中。主要包含两种方法：神经网络 Evoformer 和结构模块 Structure module。神经网络 Evoformer 将一维序列特征 与二维关联特征结合，作用到蛋白质结构表示上，完成结构预测。蛋白质结构表示用三角形表示蛋白结构信息，再应用特殊设计的 IPA 注意力机制，将 Attention 作用于一维表示的同时，也能够更新蛋白结构的二维表示，并保持了蛋白三维结构的旋转对称等变形。神经网络预测整体包含三次迭代优化(Recycling)，将训练的结果返回输入继续迭代训练，充分实现端到端训练的蛋白结构预测。
 
-\subsection{AlphaFold 计算流程}
+<h3>AlphaFold 计算流程</h3>
 
-AlphaFold 计算流程包含四个部分，如图 \ref{Fig.pipline} 所示： (a) 多序列比对；(b) 模版搜索；(c) 五个模型预测；(d) 紧随每个模型的 AMBER 结构优化。
-
+    <p>
+AlphaFold 计算流程包含四个部分，如图所示： (a) 多序列比对；(b) 模版搜索；(c) 五个模型预测；(d) 紧随每个模型的 AMBER 结构优化。
+</p><p>
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=0.48\textwidth]{FIG/pipline.png}
 \caption{AlphaFold 计算流程。(a)多序列比对；(b)模版搜索；(c)模型预测；(d)AMBER 优化。其中 (a)和(b) 使用纯 CPU 计算；(c)和(d) 使用 GPU，虽然也能在 CPU 上运行，但会非常缓慢}
 \label{Fig.pipline}
 \end{figure}
-
+</p><p>
 AlphaFold 官方代码全程运行于 GPU 卡上，尽管前面的 (a) 与 (b) 两部分为纯 CPU 计算，没有用到 GPU。时间上，以一个典型的短序列为例，全程计算约 100 分钟，其中 (a) 最耗时，约占 60 分钟，(b) 极快，几乎可忽略，(c) 与 (d) 共约 40 分钟。也即真正使用 GPU 的时间仅占 GPU 总运行时间的 40\%。对于长序列来说，(a)耗时占比可能更高，达到 GPU 总运行时间的 60\% 以上。如此运算方案可能在个人计算机上较为方便，但在高性能计算平台上则存在很大的优化空间。
 
-\subsection{AlphaFold 成就与亮点}
+<h3>AlphaFold 成就与亮点</h3>
 
+<p>
 我们认为 AlphaFold 有以下四项成就：
-
-\begin{enumerate}
-\item 完整建立了蛋白结构预测的端到端架构；
-\item 将物理信息和几何信息融入模型，而不是使用搜索方式找到结构；
-\item 模型能够预测自己的准确性，用于建模打分和排序；
-\item 实现了计算机蛋白质建模极高的精确度。
-\end{enumerate}
+</p><p>
+<ul>
+<li>完整建立了蛋白结构预测的端到端架构；
+<li>将物理信息和几何信息融入模型，而不是使用搜索方式找到结构；
+<li>模型能够预测自己的准确性，用于建模打分和排序；
+<li>实现了计算机蛋白质建模极高的精确度。
+</ul>
 
 其在神经网络训练中的三大技术亮点如下：
 
-\begin{enumerate}
-\item 基于 Recycling 的迭代优化；
-\item 广泛应用的 Attention 架构。将二维表横向和竖向反复做 Attention，再局部做 Attention，不断精化 Embedding 过程；
-\item 半监督学习拓展训练集 (Self Distillation)。用带标签的数据先训练一遍，再用无标签的数据预测一遍，形成新的数据集，然后再混合继续训练。
-\end{enumerate}
+<ul>
+<li>基于 Recycling 的迭代优化；
+<li>广泛应用的 Attention 架构。将二维表横向和竖向反复做 Attention，再局部做 Attention，不断精化 Embedding 过程；
+<li>半监督学习拓展训练集 (Self Distillation)。用带标签的数据先训练一遍，再用无标签的数据预测一遍，形成新的数据集，然后再混合继续训练。
+</ul>
 
 AlphaFold 的出现极大地促进了结构生物学的发展。一个转变正在发生：几十年来，当蛋白结构预测与实验结果不符时，人们倾向于认为是计算出了错；而今，AlphaFold 带来了反转。当两者不相符时，人们将首先去检查实验出错的可能，因为蛋白折叠结构预测已经变得非常可靠了。
 
@@ -116,12 +119,12 @@ AlphaFold 的出现极大地促进了结构生物学的发展。一个转变正�
 
 AlphaFold 由于新近发布，且一定程度上为了赶在 RoseTTAFold 之前发布，代码尚有许多亟待优化之处。根据我们的测试，AlphaFold 当前主要包含以下四点问题：
 
-\begin{enumerate}
-\item CPU 与 GPU 计算未分拆；
-\item CPU 缺少优化；
-\item GPU 缺少优化；
-\item I/O 瓶颈影响计算速度。
-\end{enumerate}
+<ul>
+<li>CPU 与 GPU 计算未分拆；
+<li>CPU 缺少优化；
+<li>GPU 缺少优化；
+<li>I/O 瓶颈影响计算速度。
+</ul>
 
 受其影响，计算时常遇到下表所列的各种问题：
 
@@ -152,12 +155,12 @@ A100 不比 P100 快 & GPU 未优化 \\
 
 AlphaFold 部署具有一定难度，体现在硬件、软件、数据、文档等多个层面。
 
-\begin{enumerate}
-\item 硬件。需要 GPU 卡。CPU 尽量配 8 核心以上，内存尽量 32 G 以上；
-\item 软件。官方提供的是 docker 安装；
-\item 数据。需要自国外多个数据中心下载 438 GB 数据（解压后为 2.2 TB），详见表 \ref{tab:dataset}；
-\item 文档。安装和使用文档较为欠缺。
-\end{enumerate}
+<ul>
+<li>硬件。需要 GPU 卡。CPU 尽量配 8 核心以上，内存尽量 32 G 以上；
+<li>软件。官方提供的是 docker 安装；
+<li>数据。需要自国外多个数据中心下载 438 GB 数据（解压后为 2.2 TB），详见表 \ref{tab:dataset}；
+<li>文档。安装和使用文档较为欠缺。
+</ul>
 
 \begin{table}[htbp]
 \centering
@@ -190,10 +193,10 @@ conda 安装更为灵活，支持更多选项和定制修改，也易通过简�
 
 conda 安装注意事项：
 
-\begin{enumerate}
-\item CUDA 和 cuDNN 版本需适配，见表 \ref{tab:cuda} ；
-\item jaxlib 版本须为 0.1.69，这个版本支持 CUDA 统一内存，以运行更长序列的蛋白；
-\end{enumerate}
+<ul>
+<li>CUDA 和 cuDNN 版本需适配，见表 \ref{tab:cuda} ；
+<li>jaxlib 版本须为 0.1.69，这个版本支持 CUDA 统一内存，以运行更长序列的蛋白；
+</ul>
 
 
 
@@ -254,15 +257,15 @@ AlphaFold 的 CPU 计算主要是完成多序列比对过程中的三个庞大�
 GPU 优化有两个方向，一是保障更长序列蛋白的计算，二是加快计算。
 
 AlphaFold GPU 应用的是谷歌开源框架 JAX。计算内容是依次对 5 个模型进行预测，并在每个模型预测结束后加以 AMBER 优化。目前，AlphaFold 的 JAX 暂时无法充分利用多卡的算力，计算仅集中于 1 卡。但多卡拥有更大的显存，有助于保障更长序列蛋白的计算。多卡显存由 CUDA 统一内存 (unified memory) 模式调用。因此，将 CUDA 设置成统一内存模式，并调控 JAX 的显存加载和释放，有助于确保充裕的显存来完成长序列蛋白的计算，例如 1200 氨基酸 以上的蛋白。我们总结了以下四个设置，可控制 JAX 仅加载所需的显存，并及时释放。计算会因此偏慢，但长序列计算时，显存充裕，不易出现 out-of-memory (OOM) 的报错。
-\begin{enumerate}
-\item jaxlib 版本须为 0.1.69
-\item TF\_FORCE\_UNIFIED\_MEMORY=1
-\item XLA\_PYTHON\_CLIENT\_MEM
+<ul>
+<li>jaxlib 版本须为 0.1.69
+<li>TF\_FORCE\_UNIFIED\_MEMORY=1
+<li>XLA\_PYTHON\_CLIENT\_MEM
 \_FRACTION=0.5
-\item XLA\_PYTHON\_CLIENT
+<li>XLA\_PYTHON\_CLIENT
 
 \_ALLOCATOR=platform
-\end{enumerate}
+</ul>
 
 
 相应的，若 GPU 资源丰富，多卡情形下指定 XLA\_PYTHON\_CLIENT\_MEM\_FRACTION=2 或 4，就能加快计算。
@@ -356,12 +359,12 @@ CPU 与 GPU 计算拆分后，单个蛋白结构预测所需的时间并无明�
 \label{Fig.IO}
 \end{figure}
 
-\begin{enumerate}
-    \item 优先推荐使用 DGX-2 本地的 NVMe SSD 存储。在每台 DGX-2 SSD 上均放置数据；
-    \item 若不得不使用 Lustre 并行文件系统上的存储，请使用 NVMe SSD；
-    \item 不推荐直接使用 Lustre 上非 SSD 的存储；
-    \item 对于分拆到 CPU 的计算，推荐使用大内存节点，或支持内存持久化的 PMem 节点。
-\end{enumerate}
+<ul>
+    <li>优先推荐使用 DGX-2 本地的 NVMe SSD 存储。在每台 DGX-2 SSD 上均放置数据；
+    <li>若不得不使用 Lustre 并行文件系统上的存储，请使用 NVMe SSD；
+    <li>不推荐直接使用 Lustre 上非 SSD 的存储；
+    <li>对于分拆到 CPU 的计算，推荐使用大内存节点，或支持内存持久化的 PMem 节点。
+</ul>
 
 
 
