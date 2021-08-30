@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en" class=" js "><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!-- begin _includes/seo.html -->
+<title>ParaFold</title>
+<meta name="description" content="A modified version of AlphaFold for high performance computing, supported by Shanghai Jiao Tong University.">
+<meta name="author" content="Bozitao Zhong">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="ParaFold">
+<meta property="og:title" content="ParaFold">
+<meta property="og:url" content="https://github.com/Zuricho/ParallelFold">
+<meta property="og:description" content="A modified version of AlphaFold for high performance computing, supported by Shanghai Jiao Tong University.">
+<meta property="og:image" content="./assets/images/global.png">
+<link rel="canonical" href="https://github.com/Zuricho/ParallelFold">
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Bozitao Zhong",
+      "url": "https://github.com/Zuricho/ParallelFold",
+  }
+</script>
+<!-- end _includes/seo.html -->
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="./assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css"></noscript>
+
+<!-- start custom head snippets -->
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+<!-- end custom head snippets -->
+
+  <style id="fit-vids-style">.fluid-width-video-wrapper{width:100%;position:relative;padding:0;}.fluid-width-video-wrapper iframe,.fluid-width-video-wrapper object,.fluid-width-video-wrapper embed {position:absolute;top:0;left:0;width:100%;height:100%;}</style></head>
+
+  <body class="layout--splash">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="https://parafold.sjtu.edu.cn/#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="https://parafold.sjtu.edu.cn/#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="https://parafold.sjtu.edu.cn/#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+<!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        <a class="site-title" href="https://parafold.sjtu.edu.cn/">
+          ParaFold
+          <span class="site-subtitle">A version of AlphaFold for HPC</span>
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="https://parafold.sjtu.edu.cn/docs/quick-start/">Quick-Start</a>
+            </li><li class="masthead__menu-item">
+              <a href="https://parafold.sjtu.edu.cn/about/">About</a>
+            </li><li class="masthead__menu-item">
+              <a href="https://parafold.sjtu.edu.cn/github/">GitHub</a>
+            </li><li class="masthead__menu-item">
+              <a href="https://parafold.sjtu.edu.cn/team/">Our Team</a>
+            </li></ul>
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <i class="fas fa-search"></i>
+        </button>
+        <button class="greedy-nav__toggle" type="button" count="1" style="">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"><li class="masthead__menu-item">
+              <a href="https://parafold.sjtu.edu.cn/terms/">Terms &amp; Privacy Policy</a>
+            </li></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+<div class="initial-content">
+  
+<div class="page__hero--overlay" style="background-color: #5e616c; background-image: url(&#39;./assets/images/global_main.png&#39;);">
+    <div class="wrapper">
+      <h1 id="page-title" class="page__title" itemprop="headline">
+          ParaFold
+      </h1>
+      <p class="page__lead">A modified version of AlphaFold for high performance computing, supported by Shanghai Jiao Tong University.<br>
+        <small><a href="https://github.com/Zuricho/ParallelFold">Latest release v1.0</a></small>
+      </p>
+      <p><a href="https://github.com/Zuricho/ParallelFold" class="btn btn--light-outline btn--large"><i class='fab fa-github'></i> View at GitHub</a>
+      </p>
+    </div>
+</div>
+
+<div id="main" role="main">
+  <article class="splash" itemscope="" itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="description" content="A modified version of AlphaFold for high performance computing, supported by Shanghai Jiao Tong University.">
+    <section class="page__content" itemprop="text">
+
+<div class="feature__wrapper">
+    <div class="feature__item">
+      <div class="archive__item">
+          <div class="archive__item-teaser">
+            <img src="./assets/images/parafoldlogo.png" alt="customizable">
+          </div>
+        <div class="archive__item-body">
+            <h2 class="archive__item-title">Fast without losing accuracy</h2>
+            <div class="archive__item-excerpt">
+              <p>Separate the CPU and GPU parts, with AlphaFold's MSA construction and use of templates running in parallel on CPU, and training and inference on GPU.</p>
+            </div>
+            <p><a href="https://parafold.sjtu.edu.cn/docs/configuration/" class="btn btn--primary">Learn more</a></p>
+        </div>
+      </div>
+    </div>
+  
+    <div class="feature__item">
+      <div class="archive__item">
+          <div class="archive__item-teaser">
+            <img src="./assets/images/global.png" alt="fully responsive">
+          </div>
+        <div class="archive__item-body">
+            <h2 class="archive__item-title">AlphaFoldDB and other datasets</h2>
+            <div class="archive__item-excerpt">
+              <p>Mining AlphaFoldDB structures for new biological insight. How to improve the accuracy of those without a confident prediction in AlphaFoldDB. </p>
+            </div>
+            <p><a href="https://parafold.sjtu.edu.cn/docs/layouts/" class="btn btn--primary">Learn more</a></p>
+          
+        </div>
+      </div>
+    </div>
+  
+    <div class="feature__item">
+      <div class="archive__item">
+          <div class="archive__item-teaser">
+            <img src="./assets/images/pic3c.png" alt="100% free">
+          </div>
+          <div class="archive__item-body">
+            <h2 class="archive__item-title">AlphaFold wiki: Lessons learned over time.</h2>
+            <div class="archive__item-excerpt">
+              <p>How to avoid HHblits failure? How to improve I/O performance? How to run with long amino acid sequences? How to run faster, more ffficiently and accurately?</p>
+            </div>
+            <p><a href="https://parafold.sjtu.edu.cn/docs/license/" class="btn btn--primary">Learn more</a></p>
+          
+        </div>
+      </div>
+    </div>
+</div>
+    </section>
+  </article>
+</div>
+</div>
+
+<div class="search-content">
+        <div class="search-content__inner-wrap">
+          <div class="search-searchbar"></div>
+          <div class="search-hits"></div>
+        </div>
+</div>
+    
+<div class="page__footer">
+      <footer>
+        <div class="page__footer-follow">
+          <ul class="social-icons">
+          <li><a href="https://github.com/Zuricho/ParallelFold" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">Bozitao Zhong @SJTU Copyright 2021 SJTU Network & Information Center All rights reserved. (沪交ICP备20210257) </div>
+
+      </footer>
+    </div>
+
+<script src="./assets/css/main.css"></script>
+
+
+</body></html>
