@@ -35,8 +35,17 @@
 <p class="message">AlphaFold 基于深度神经网络预测蛋白质形态，能够快速生成高精确度的蛋白质结构，在生命科学和医学研究领域受到广泛关注。上海交通大学率先完成 AlphaFold 在高性能计算平台的部署和优化，使其更快、更准、更便捷。部署采用 docker 法和 conda 法。优化分四个层面进行：CPU 与 GPU 分离、CPU 并行优化、GPU 优化和 I/O 优化。优化后，AlphaFold 可实现大规模高通量计算，每块 NVIDIA Tesla V100 计算效率提升 12 倍，能够有效解决 I/O 瓶颈、节省 GPU 计算资源。
 </p>    
 
+<p>
+<a href="#0">引言</a>
+<a href="#1">AlphaFold 介绍</a>
+<a href="#abc">引言</a>
+<a href="#abc">引言</a>
+<a href="#abc">引言</a>
+<a href="#abc">引言</a>
+<a href="#abc">引言</a>
 
-<h2>引言</h2>
+<div id="#0"><h2>引言</h2></div>
+
 
 <p>
 高精度蛋白结构预测能够为生命科学和医学研究带来丰富的启示，成为改变生命科学研究范式的重要契机。快速精准的大规模蛋白结构预测能够激发基础科学、药物研发、合成生物学等方面的未来发展。DeepMind 团队开发的基于深度神经网络的 AlphaFold  方法达到了前所未有的预测准确度，解决了半世纪以来生物学领域最大的挑战，为推进科学进步作出重要贡献。 2021 年 7 月，AlphaFold 的细节在  Nature 杂志上公开[1]，代码也同时开源[2]。
@@ -57,7 +66,8 @@ AlphaFold 计算效率优化从以下四个层次进行：
 </ul>
 </p>
 
-<h2>AlphaFold 介绍</h2>
+<div id="#1"><h2>AlphaFold 介绍</h2></div>
+
 <p>
 蛋白结构精准预测对生物医药领域至关重要。为了找到最优的蛋白质结构预测方法，CASP (Critical Assessment of protein Structure Prediction) 国际会议每两年举办一次，邀请实验学家们提供未公开结构的蛋白质序列，用于评估当年参赛的结构预测方法的精确度。2020 年之前，尽管历届 CASP 大会上计算生物学家们已积累了许多蛋白结构预测的算法，形成诸多可行的方案，如 Rosetta，I-TASSER，RaptorX 等，但预测结果始终难以挑战实验的精确度。2020 年的 CASP14 大会上，DeepMind 团队带来了开创性的突破，AlphaFold2 方法实现了前所未有的预测精确度，精确度中位数达 92.4 GDT（满分 100 分）[1]。
 </p><p>
@@ -199,7 +209,7 @@ conda 安装更为灵活，支持更多选项和定制修改，也易通过简�
 conda 安装注意事项：
 </p><p>
 <ul>
-<li>CUDA 和 cuDNN 版本需适配，见表 \ref{tab:cuda} ；
+<li>CUDA 和 cuDNN 版本需适配，见下表；
 <li>jaxlib 版本须为 0.1.69，这个版本支持 CUDA 统一内存，以运行更长序列的蛋白；
 </ul>
 </p><p>
