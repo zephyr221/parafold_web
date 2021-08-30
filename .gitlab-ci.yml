@@ -10,4 +10,4 @@ parafold_web_deploy:
     - cd /var/lib/www/parafold.sjtu.edu.cn
     - git checkout master
     - git reset --hard origin/master
-    - git pull
+    - git pull origin master

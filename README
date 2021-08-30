@@ -1,0 +1,7 @@
+web content for https://parafold.sjtu.edu.cn
+
+
+******* if you access this folder by ssh ********
+This folder is controlled by CI of gitlab repo https://git.computing.sjtu.edu.cn/devops/parafold_web
+DO NOT modify the content from beckground ssh directly!!!
+You should submit merge request to master branch and CI will deploy it.
