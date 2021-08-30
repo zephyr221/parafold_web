@@ -1,0 +1,13 @@
+parafold_web_deploy:
+  variables:
+    GIT_STRATEGY: none
+  stage: deploy
+  tags:
+    - shell.web.hpc.sjtu.edu.cn
+  only:
+    - master
+  script:
+    - cd /var/lib/www/parafold.sjtu.edu.cn
+    - git checkout master
+    - git reset --hard origin/master
+    - git pull
