@@ -165,21 +165,40 @@ AlphaFold 由于新近发布，且一定程度上为了赶在 RoseTTAFold 之前
 </p><p>
 受其影响，计算时常遇到下表所列的各种问题：
 </p><p>
-\begin{table}[htbp]
-\centering
-\caption{\label{tab:test}AlphaFold 计算中常见问题及原因}
-\begin{tabular}{ll}
-\hline
-问题 & 原因\\
-\hline
-计算时间波动较大 & I/O 瓶颈 \\
-多核无法加快计算 & CPU 未优化、I/O 瓶颈 \\
-多卡无法加快计算 & GPU 未优化、I/O 瓶颈 \\
-A100 不比 P100 快 & GPU 未优化 \\
-难以计算长序列蛋白 & CPU、GPU 均未优化 \\
-\hline
-\end{tabular}
-\end{table}
+
+<table>
+  <thead>
+    <tr>
+      <th>问题</th>
+      <th>原因</th>
+    </tr>
+  </thead>
+  <tfoot>
+    <tr>
+      <td>计算时间波动较大</td>
+      <td>I/O 瓶颈</td>
+    </tr>
+  </tfoot>
+  <tbody>
+    <tr>
+      <td>多核无法加快计算</td>
+      <td>CPU 未优化、I/O 瓶颈</td>
+    </tr>
+    <tr>
+      <td>多卡无法加快计算</td>
+      <td>GPU 未优化、I/O 瓶颈</td>
+    </tr>
+    <tr>
+      <td>A100 不比 P100 快</td>
+      <td>GPU 未优化</td>
+    </tr>
+    <tr>
+        <td>难以计算长序列蛋白</td>
+        <td>CPU、GPU 均未优化</td>
+    </tr>
+  </tbody>
+</table>
+
 </p><p>
 我们将在下文中针对 AlphaFold 存在的四类问题进行优化。
 </p>
