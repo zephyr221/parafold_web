@@ -295,7 +295,7 @@ conda 安装注意事项：
 </ul>
 </p><p>
 
-<p>conda 安装时的版本选择</p>    
+<p>conda 安装时的版本选择：</p>    
 <table>
     <thead>
       <tr>
@@ -340,6 +340,7 @@ conda 安装注意事项：
     </tbody>
 </table>    
 
+<p></p>
 
 <div id="3"><h2>AlphaFold 优化</h2></div>
 
@@ -347,7 +348,7 @@ conda 安装注意事项：
 AlphaFold 的优化包含四部分：CPU 与 GPU 分离、CPU 并行优化、GPU 优化和 I/O 优化。
 </p>
 
-<div id="3.1">CPU 与 GPU 分离</div>
+<div id="3.1"><h3>CPU 与 GPU 分离</h3></div>
 
 <p>
 AlphaFold原本全程运行于 GPU。拆分后，先至 CPU 节点进行耗时最长的多序列比对计算，再至 GPU 节点完成神经网络计算和优化。GPU 节点计算时间由此减至原先的 40\% 左右，大幅降低计算成本。同时，CPU 计算支持多线程高并发，从而实现大规模计算，提升计算效率。
