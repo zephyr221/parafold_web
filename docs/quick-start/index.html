@@ -37,31 +37,31 @@
 
 <h2>引言</h2>
 
+<p>
 高精度蛋白结构预测能够为生命科学和医学研究带来丰富的启示，成为改变生命科学研究范式的重要契机。快速精准的大规模蛋白结构预测能够激发基础科学、药物研发、合成生物学等方面的未来发展。DeepMind 团队开发的基于深度神经网络的 AlphaFold  方法达到了前所未有的预测准确度，解决了半世纪以来生物学领域最大的挑战，为推进科学进步作出重要贡献。 2021 年 7 月，AlphaFold 的细节在  Nature 杂志上公开\cite{jumper2021highly}，代码也同时开源\cite{AlphaFoldgithub}。
-
+</p><p>
 AlphaFold 建立了蛋白序列与结构之间的联系，有助于人们更好的发现蛋白的功能。在蛋白功能研究中，解析一个蛋白的结构只能得到部分的信息，而要知道整个蛋白的功能，往往需要解析很多个蛋白，以便通过结构对比、蛋白质互作分析等方法找出其中蕴含的结构范式。因此，AlphaFold 需要能够胜任多条蛋白序列的预测任务，计算规模从突变体库的几十、上百个蛋白，上至蛋白组级别的成千上万条序列。AlphaFold 的计算效率也因此被寄予厚望。然而，测试发现，AlphaFold 代码由于新近发布，CPU、GPU、I/O 等均缺少优化，计算效率较低，难以满足大规模的计算需求\cite{AlphaFoldgithub}。
-
+</p><p>
 上海交通大学高性能计算团队第一时间展开了 AlphaFold 的部署和优化，通过解决 CPU、GPU、I/O 等问题，计算效率大幅提升，每块 NVIDIA Tesla V100 卡的单日蛋白计算总量增长 12 倍，可以满足大规模计算需求，同时可节省 GPU 计算资源，有效解决 I/O 瓶颈问题。
-
+</p><p>
 AlphaFold 部署分两种方法：docker 法和 conda 法，分别提供基础版和进阶版，满足用户不同层次计算需求。docker 法优势是以 module 形式全局提供，免除用户自行安装的困难；conda 法适合探索和调试各种参数选项，扩展性更好。
-
+</p><p>
 AlphaFold 计算效率优化从以下四个层次进行：
-
+</p><p>
 <ul>
     <li>CPU 与 GPU 计算分离。CPU 与 GPU 分离后可大幅缩短 GPU 上的计算时间，且分离后的 CPU 支持高通量大规模计算。分离的代码已上传至 GitHub \cite{ParallelFold}；
     <li>CPU 并行优化。CPU 计算中的三个搜索任务，由串行改为并行后，CPU 计算增速一倍；
     <li>GPU 优化。调节 JAX 显存管理，以保障更长序列的蛋白计算。略去 4 个得分较低的模型优化，加快 GPU 计算；
     <li>I/O 优化。将海量数据集放置于本地、使用 NVMe SSD、或使用内存持久化等方法，解决 I/O 瓶颈，加速计算。
 </ul>
-
+</p>
 <h2>AlphaFold 介绍</h2>
 
-
+<p>
 蛋白结构精准预测对生物医药领域至关重要。为了找到最优的蛋白质结构预测方法，CASP (Critical Assessment of protein Structure Prediction) 国际会议每两年举办一次，邀请实验学家们提供未公开结构的蛋白质序列，用于评估当年参赛的结构预测方法的精确度。2020 年之前，尽管历届 CASP 大会上计算生物学家们已积累了许多蛋白结构预测的算法，形成诸多可行的方案，如 Rosetta \cite{simons1999ab}，I-TASSER \cite{zhang2018template}，RaptorX \cite{wang2016raptorx} 等，但预测结果始终难以挑战实验的精确度。2020 年的 CASP14 大会上，DeepMind 团队带来了开创性的突破，AlphaFold2 方法实现了前所未有的预测精确度，精确度中位数达 92.4 GDT（满分 100 分）\cite{jumper2021highly}。
-
-
+</p><p></p>
 AlphaFold2 相较于 2018 年的 AlphaFold1，是个全新的模型，在模型架构层面上有了很大的改动，例如不再使用卷积神经网络，而改用 基于Attention的端到端架构。再加上各种精妙的细节，AlphaFold2 精确度得到了质的飞跃。本文中的 AlphaFold 分析和优化均仅针对 AlphaFold2。
-
+</p>
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=0.48\textwidth]{FIG/frame.png}
@@ -69,7 +69,8 @@ AlphaFold2 相较于 2018 年的 AlphaFold1，是个全新的模型，在模型�
 \label{Fig.AFframe}
 \end{figure}
 
-\subsection{AlphaFold 架构}
+<h2>AlphaFold 架构</h2>
+
 
 AlphaFold 架构分为两大部分：序列特征生成和神经网络预测。
 
