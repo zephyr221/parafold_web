@@ -38,14 +38,36 @@
 <ul>
     <li><a href="#0">引言</a>
     <li><a href="#1">AlphaFold 介绍</a>
-    <li><a href="#abc">引言</a>
-<a href="#abc">引言</a>
-<a href="#abc">引言</a>
-<a href="#abc">引言</a>
-<a href="#abc">引言</a>
+        <ul>
+            <li><a href="#1.1">AlphaFold 架构</a>
+            <li><a href="#1.2">AlphaFold 计算流程</a>
+            <li><a href="#1.3">AlphaFold 成就与亮点</a>
+            <li><a href="#1.4">AlphaFold 问题与挑战</a>
+        </ul>
+    <li><a href="#2">AlphaFold 部署</a>
+        <ul>
+            <li><a href="#2.1">安装要求</a>
+            <li><a href="#2.2">docker 安装方法</a>
+            <li><a href="#2.3">conda 安装方法</a>
+        </ul>
+    <li><a href="#3">AlphaFold 优化</a>
+        <ul>
+            <li><a href="#3.1">CPU 与 GPU 分离</a>
+            <li><a href="#3.2">CPU 并行加速</a>
+            <li><a href="#3.3">GPU 优化</a>
+            <li><a href="#3.4">I/O 优化</a>
+        </ul>
+    <li><a href="#4">AlphaFold 性能测试与分析</a>
+        <ul>
+            <li><a href="#4.1">优化前</a>
+            <li><a href="#4.2">CPU 与 GPU 分离</a>
+            <li><a href="#4.3">CPU 并行加速后</a>
+            <li><a href="#4.4">I/O 优化后</a>
+        </ul>       
+    <li><a href="#5">结束语</a>      
+
 
 <div id="0"><h2>引言</h2></div>
-
 
 <p>
 高精度蛋白结构预测能够为生命科学和医学研究带来丰富的启示，成为改变生命科学研究范式的重要契机。快速精准的大规模蛋白结构预测能够激发基础科学、药物研发、合成生物学等方面的未来发展。DeepMind 团队开发的基于深度神经网络的 AlphaFold  方法达到了前所未有的预测准确度，解决了半世纪以来生物学领域最大的挑战，为推进科学进步作出重要贡献。 2021 年 7 月，AlphaFold 的细节在  Nature 杂志上公开[1]，代码也同时开源[2]。
@@ -81,7 +103,7 @@ AlphaFold2 相较于 2018 年的 AlphaFold1，是个全新的模型，在模型�
 \label{Fig.AFframe}
 \end{figure}
 
-<h2>AlphaFold 架构</h2>
+<div id="1.1"><h3>AlphaFold 架构</h3></div>
 
 <p>
 AlphaFold 架构分为两大部分：序列特征生成和神经网络预测。
@@ -91,7 +113,7 @@ AlphaFold 架构分为两大部分：序列特征生成和神经网络预测。
 第二部分的神经网络预测，将蛋白结构和生物信息整合到深度学习算法中。主要包含两种方法：神经网络 Evoformer 和结构模块 Structure module。神经网络 Evoformer 将一维序列特征 与二维关联特征结合，作用到蛋白质结构表示上，完成结构预测。蛋白质结构表示用三角形表示蛋白结构信息，再应用特殊设计的 IPA 注意力机制，将 Attention 作用于一维表示的同时，也能够更新蛋白结构的二维表示，并保持了蛋白三维结构的旋转对称等变形。神经网络预测整体包含三次迭代优化(Recycling)，将训练的结果返回输入继续迭代训练，充分实现端到端训练的蛋白结构预测。
 </p>
 
-<h3>AlphaFold 计算流程</h3>
+<div id="1.2"><h3>AlphaFold 计算流程</h3></div>
 
 <p>
 AlphaFold 计算流程包含四个部分，如图所示： (a) 多序列比对；(b) 模版搜索；(c) 五个模型预测；(d) 紧随每个模型的 AMBER 结构优化。
@@ -106,7 +128,7 @@ AlphaFold 计算流程包含四个部分，如图所示： (a) 多序列比对�
 AlphaFold 官方代码全程运行于 GPU 卡上，尽管前面的 (a) 与 (b) 两部分为纯 CPU 计算，没有用到 GPU。时间上，以一个典型的短序列为例，全程计算约 100 分钟，其中 (a) 最耗时，约占 60 分钟，(b) 极快，几乎可忽略，(c) 与 (d) 共约 40 分钟。也即真正使用 GPU 的时间仅占 GPU 总运行时间的 40%。对于长序列来说，(a)耗时占比可能更高，达到 GPU 总运行时间的 60% 以上。如此运算方案可能在个人计算机上较为方便，但在高性能计算平台上则存在很大的优化空间。
 </p>
 
-<h3>AlphaFold 成就与亮点</h3>
+<div id="1.3"><h3>AlphaFold 成就与亮点</h3></div>
 
 <p>
 我们认为 AlphaFold 有以下四项成就：
@@ -129,7 +151,8 @@ AlphaFold 官方代码全程运行于 GPU 卡上，尽管前面的 (a) 与 (b) �
 AlphaFold 的出现极大地促进了结构生物学的发展。一个转变正在发生：几十年来，当蛋白结构预测与实验结果不符时，人们倾向于认为是计算出了错；而今，AlphaFold 带来了反转。当两者不相符时，人们将首先去检查实验出错的可能，因为蛋白折叠结构预测已经变得非常可靠了。
 </p>
 
-<h3>AlphaFold 问题与挑战</h3>
+<div id="1.4"><h3>AlphaFold 问题与挑战</h3></div>
+
 <p>
 AlphaFold 由于新近发布，且一定程度上为了赶在 RoseTTAFold 之前发布，代码尚有许多亟待优化之处。根据我们的测试，AlphaFold 当前主要包含以下四点问题：
 </p><p>
@@ -165,6 +188,7 @@ A100 不比 P100 快 & GPU 未优化 \\
 <p>
 上海交通大学高性能计算平台第一时间完成了 AlphaFold 的部署，分别采用 docker 和 conda 两种安装方法，向用户提供基础版和进阶版两个版本。下面将具体介绍部署详情。
 </p>
+
 <h3>安装要求</h3>
 <p>
 AlphaFold 部署具有一定难度，体现在硬件、软件、数据、文档等多个层面。
