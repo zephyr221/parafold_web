@@ -74,7 +74,7 @@
 <div id="0"><h2>引言</h2></div>
 
 <p>
-高精度蛋白结构预测能够为生命科学和医学研究带来丰富的启示，成为改变生命科学研究范式的重要契机。快速精准的大规模蛋白结构预测能够激发基础科学、药物研发、合成生物学等方面的未来发展。DeepMind 团队开发的基于深度神经网络的 AlphaFold  方法达到了前所未有的预测准确度，解决了半世纪以来生物学领域最大的挑战，为推进科学进步作出重要贡献。 2021 年 7 月，AlphaFold 的细节在  Nature 杂志上公开[1]，代码也同时开源[2]。
+高精度蛋白结构预测能够为生命科学和医学研究带来丰富的启示，成为改变生命科学研究范式的重要契机。快速精准的大规模蛋白结构预测能够激发基础科学、药物研发、合成生物学等方面的未来发展。DeepMind 团队开发的基于深度神经网络的 AlphaFold  方法达到了前所未有的预测准确度，解决了半世纪以来生物学领域最大的挑战，为推进科学进步作出重要贡献。 2021 年 7 月，AlphaFold 的细节在  Nature 杂志上公开<sup id="fnref:fn-1" role="doc-noteref"><a href="#fn:fn-1" class="footnote" rel="footnote">1</a></sup> ，代码也同时开源<sup id="fnref:fn-2" role="doc-noteref"><a href="#fn:fn-2" class="footnote" rel="footnote">1</a></sup> 。
 </p><p>
 AlphaFold 建立了蛋白序列与结构之间的联系，有助于人们更好的发现蛋白的功能。在蛋白功能研究中，解析一个蛋白的结构只能得到部分的信息，而要知道整个蛋白的功能，往往需要解析很多个蛋白，以便通过结构对比、蛋白质互作分析等方法找出其中蕴含的结构范式。因此，AlphaFold 需要能够胜任多条蛋白序列的预测任务，计算规模从突变体库的几十、上百个蛋白，上至蛋白组级别的成千上万条序列。AlphaFold 的计算效率也因此被寄予厚望。然而，测试发现，AlphaFold 代码由于新近发布，CPU、GPU、I/O 等均缺少优化，计算效率较低，难以满足大规模的计算需求[2]。
 </p><p>
@@ -514,17 +514,30 @@ CPU 与 GPU 计算拆分后，单个蛋白结构预测所需的时间并无明�
 
 <div class="footnotes" role="doc-endnotes">
     <ol>
-      <li id="fn:fn-sample_footnote" role="doc-endnote">
-        <p>Handy! Now click the return link to go back. <a href="#fnref:fn-sample_footnote" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+      <li id="fn:1" role="doc-endnote">
+        <p>John Jumper et al. Highly accurate protein structure prediction with alphafold. Nature, pages 1–11, 2021. <a href="#fnref:fn-1" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
       </li>
-      <li id="fn:fn-sample_footnote" role="doc-endnote">
-        <p>John Jumper et al. Highly accurate protein structure prediction with alphafold. Nature, pages 1–11, 2021. <a href="#fnref:fn-sample_footnote" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+      <li id="fn:2" role="doc-endnote">
+        <p>DeepMind. AlphaFold GitHub. https://github.com/deepmind/alphafold. <a href="#fnref:fn-2" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
       </li>
-      <li id="fn:fn-sample_footnote" role="doc-endnote">
-        <p>DeepMind. AlphaFold GitHub. https://github.com/deepmind/alphafold. <a href="#fnref:fn-sample_footnote" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
-      </li>
-      <li id="fn:fn-sample_footnote" role="doc-endnote">
+      <li id="fn:3" role="doc-endnote">
         <p>Bozitao Zhong. ParallelFold GitHub. https://github.com/Zuricho/ParallelFold. <a href="#fnref:fn-sample_footnote" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+      </li>
+      <li id="fn:4" role="doc-endnote">
+        <p>Kim T Simons et al. Ab initio protein structure prediction of casp iii targets using rosetta. Proteins: Structure, Function, and Bioinformatics, 37(S3):171–176, 1999. <a href="#fnref:fn-sample_footnote" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+      </li>
+      <li id="fn:5" role="doc-endnote">
+        <p>Chengxin Zhang et al. Template-based and free modeling of i-tasser and quark pipelines using predicted contact maps in casp12. Proteins: Structure, Function, and Bioinformatics, 86:136–151, 2018. <a href="#fnref:fn-sample_footnote" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+      </li>
+      <li id="fn:6" role="doc-endnote">
+        <p>Sheng Wang et al. Raptorx-property: a web server for protein structure property prediction. Nucleic acids research,
+            44(W1):W430–W435, 2016. <a href="#fnref:fn-sample_footnote" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+      </li>
+      <li id="fn:7" role="doc-endnote">
+        <p>Bozitao Zhong. LocalFold GitHub. https://github.com/Zuricho/Alphafold_local. <a href="#fnref:fn-sample_footnote" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+      </li>
+      <li id="fn:8" role="doc-endnote">
+        <p>Kathryn Tunyasuvunakool et al. Highly accurate protein structure prediction for the human proteome. Nature, pages 1–9, 2021. <a href="#fnref:fn-sample_footnote" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
       </li>
     </ol>
   </div>
