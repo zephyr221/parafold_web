@@ -67,7 +67,8 @@
             <li><a href="#4.3">CPU 并行加速后</a>
             <li><a href="#4.4">I/O 优化后</a>
         </ul>       
-    <li><a href="#5">结束语</a>      
+    <li><a href="#5">结束语</a>
+        <ul></ul>
 
 
 <div id="0"><h2>引言</h2></div>
@@ -99,18 +100,16 @@ AlphaFold 计算效率优化从以下四个层次进行：
 AlphaFold2 相较于 2018 年的 AlphaFold1，是个全新的模型，在模型架构层面上有了很大的改动，例如不再使用卷积神经网络，而改用 基于Attention的端到端架构。再加上各种精妙的细节，AlphaFold2 精确度得到了质的飞跃。本文中的 AlphaFold 分析和优化均仅针对 AlphaFold2。
 </p>
 
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=0.48\textwidth]{FIG/frame.png}
-\caption{AlphaFold 架构。主要由序列特征生成和神经网络预测两大部分组成}
-\label{Fig.AFframe}
-\end{figure}
-
 <div id="1.1"><h3>AlphaFold 架构</h3></div>
 
 <p>
 AlphaFold 架构分为两大部分：序列特征生成和神经网络预测。
-</p><p>
+</p>
+<p>
+    <img src="FIG/frame.png" alt="frame" title="Large example image" />
+    <p>图1 AlphaFold 架构。主要由序列特征生成和神经网络预测两大部分组成</p>
+    
+<p>
 第一部分的序列特征包含一维序列特征（多序列比对，MSA）和二维关联特征（残基相关图与模版检索）。多序列比对是指在序列数据库中找与原序列接近的序列，按对应的氨基酸位点做比对。具体而言，通过预测蛋白中每对氨基酸之间的距离分布和化学键角度，结合模仿人类注意力的 Attention 网络架构，既关注局部细节，又聚焦蛋白质结构信息的长距离依赖性，从而实现全面准确的框架预测。
 </p><p>
 第二部分的神经网络预测，将蛋白结构和生物信息整合到深度学习算法中。主要包含两种方法：神经网络 Evoformer 和结构模块 Structure module。神经网络 Evoformer 将一维序列特征 与二维关联特征结合，作用到蛋白质结构表示上，完成结构预测。蛋白质结构表示用三角形表示蛋白结构信息，再应用特殊设计的 IPA 注意力机制，将 Attention 作用于一维表示的同时，也能够更新蛋白结构的二维表示，并保持了蛋白三维结构的旋转对称等变形。神经网络预测整体包含三次迭代优化(Recycling)，将训练的结果返回输入继续迭代训练，充分实现端到端训练的蛋白结构预测。
@@ -118,16 +117,14 @@ AlphaFold 架构分为两大部分：序列特征生成和神经网络预测。
 
 <div id="1.2"><h3>AlphaFold 计算流程</h3></div>
 
+
 <p>
 AlphaFold 计算流程包含四个部分，如图所示： (a) 多序列比对；(b) 模版搜索；(c) 五个模型预测；(d) 紧随每个模型的 AMBER 结构优化。
-</p><p>
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=0.48\textwidth]{FIG/pipline.png}
-\caption{AlphaFold 计算流程。(a)多序列比对；(b)模版搜索；(c)模型预测；(d)AMBER 优化。其中 (a)和(b) 使用纯 CPU 计算；(c)和(d) 使用 GPU，虽然也能在 CPU 上运行，但会非常缓慢}
-\label{Fig.pipline}
-\end{figure}
-</p><p>
+</p>
+<p>
+    <img src="FIG/pipline.png" alt="pipline" title="Large example image" />
+    <p>图2 AlphaFold 计算流程。(a)多序列比对；(b)模版搜索；(c)模型预测；(d)AMBER 优化。其中 (a)和(b) 使用纯 CPU 计算；(c)和(d) 使用 GPU，虽然也能在 CPU 上运行，但会非常缓慢</p>
+<p>
 AlphaFold 官方代码全程运行于 GPU 卡上，尽管前面的 (a) 与 (b) 两部分为纯 CPU 计算，没有用到 GPU。时间上，以一个典型的短序列为例，全程计算约 100 分钟，其中 (a) 最耗时，约占 60 分钟，(b) 极快，几乎可忽略，(c) 与 (d) 共约 40 分钟。也即真正使用 GPU 的时间仅占 GPU 总运行时间的 40%。对于长序列来说，(a)耗时占比可能更高，达到 GPU 总运行时间的 60% 以上。如此运算方案可能在个人计算机上较为方便，但在高性能计算平台上则存在很大的优化空间。
 </p>
 
@@ -273,14 +270,13 @@ AlphaFold 的优化包含四部分：CPU 与 GPU 分离、CPU 并行优化、GPU
 
 <p>
 AlphaFold原本全程运行于 GPU。拆分后，先至 CPU 节点进行耗时最长的多序列比对计算，再至 GPU 节点完成神经网络计算和优化。GPU 节点计算时间由此减至原先的 40\% 左右，大幅降低计算成本。同时，CPU 计算支持多线程高并发，从而实现大规模计算，提升计算效率。
-</p><p>
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=0.48\textwidth]{FIG/separation.png}
-\caption{CPU 与 GPU 分离}
-\label{Fig.separation}
-\end{figure}
-</p><p>
+</p>
+<p>
+    <img src="FIG/separation.png" alt="separation" title="Large example image" />
+    <p>图3 AlphaFold CPU 与 GPU 分离</p>
+
+<p>
+
 AlphaFold 使用 pickel 文件 feature.pkl 作为 CPU与 GPU 部分的连接。CPU 运算得到的多序列比对结果，以及蛋白质结构模板搜索结果，均储存在 feature.pkl 文件中。分离 CPU 与 GPU 后，我们编写了两套脚本分别用于 CPU 和 GPU 计算。CPU 的计算提交至 CPU 队列，初始核数为8核，后续可根据内存需求进一步调整，最终输出 feature.pkl 文件。GPU 部分能够自动识别是否已经生成 feature.pkl 文件。若文件已存在，则直接开始神经网络模型预测和优化计算；若未识别到文件，则按原 AlphaFold 流程运行。以此保障 CPU 和 GPU 资源得到充分利用，且借助 CPU 的高并发优势，实现大规模计算，提高计算效率。
 </p>
 
@@ -288,14 +284,12 @@ AlphaFold 使用 pickel 文件 feature.pkl 作为 CPU与 GPU 部分的连接。C
 
 <p>
 AlphaFold 的 CPU 计算主要是完成多序列比对过程中的三个庞大数据库搜索 (jackHMMER, jackHMMER, HHblits)；三个搜索依次运行。优化后，三个搜索同时计算，总运行时间也因此缩短成为三项中时间最长的 HHblits 的搜索时间。
-</p><p>
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=0.45\textwidth]{FIG/MSA.png}
-\caption{CPU 并行优化。由串行改为并行}
-\label{Fig.MSA}
-\end{figure}
-</p><p>
+</p>
+<p>
+    <img src="FIG/MSA.png" alt="MSA" title="Large example image" />
+    <p>图4 CPU 并行优化。由串行改为并行</p>
+
+<p>
 在三个数据库的多序列比对计算中，两个 jackHMMER 各需要 8 核 CPU 达到最高性能，HHblits 需要 4 核 CPU 达到最高性能，所以在并行加速过程中，我们给整个任务提供足够的 20 核 CPU 以保证计算效率。
 </p>
 
@@ -316,15 +310,11 @@ AlphaFold GPU 应用的是谷歌开源框架 JAX。计算内容是依次对 5 �
 </p><p>
 相应的，若 GPU 资源丰富，多卡情形下指定 XLA_PYTHON_CLIENT_MEM_FRACTION=2 或 4，就能加快计算。
 </p><p>
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=0.48\textwidth]{FIG/amber.png}
-\caption{GPU 计算加速：仅对 pLDDT 得分最高的模型进行 AMBER 优化。(a)原流程；(b)改进后}
-\label{Fig.amber}
-\end{figure}
-</p><p>
-加快计算的另一个途径是仅对得分最高的模型进行 AMBER 优化，而非将 5 个模型全部优化。原因是人们通常只关心得分最高的模型，也即最接近实验里的构型。AMBER 的每个优化花费 3 到 20 分钟不等。省去 4 次优化，即能节省 12 至 80 分钟的 GPU 计算时间。这个改进的具体实现方式是每个模型预测完成后，先不执行 AMBER 优化，待 5 个模型全部算完，通过 pLDDT 打分后，再对得分最高的模型进行 AMBER 优化（见图 \ref{Fig.amber} ）。
+加快计算的另一个途径是仅对得分最高的模型进行 AMBER 优化，而非将 5 个模型全部优化。原因是人们通常只关心得分最高的模型，也即最接近实验里的构型。AMBER 的每个优化花费 3 到 20 分钟不等。省去 4 次优化，即能节省 12 至 80 分钟的 GPU 计算时间。这个改进的具体实现方式是每个模型预测完成后，先不执行 AMBER 优化，待 5 个模型全部算完，通过 pLDDT 打分后，再对得分最高的模型进行 AMBER 优化。
 </p>
+<p>
+    <img src="FIG/amber.png" alt="amber" title="Large example image" />
+    <p>图5 GPU 计算加速：仅对 pLDDT 得分最高的模型进行 AMBER 优化。(a)原流程；(b)改进后</p>
 
 <div id="3.4"><h3>I/O 优化</h3></div>
 
@@ -341,26 +331,19 @@ AlphaFold 计算中，CPU 环节里的 HHblits 程序要在 1.7 TB 的数据集�
 
 <p>
 我们选用了一系列蛋白用于计算速度测试。蛋白测试集选用时考虑到氨基酸 (AA) 序列长度的多样性，覆盖从 70 氨基酸到 900 氨基酸的范围，以便能够全面的反映常见蛋白质（含 300 至 900 氨基酸）的预测效率。测试结果如下：
-</p><p>
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=0.48\textwidth]{FIG/profiling.png}
-\caption{四组蛋白计算时间分布。中间绿色为 HHblits 搜索，耗时很长}
-\label{Fig.profiling}
-\end{figure}
-</p><p>
+</p>
+<p>
+    <img src="FIG/profiling.png" alt="profiling" title="Large example image" />
+    <p>图6 GPU 计算加速：仅对 pLDDT 得分最高的模型进行 AMBER 优化。(a)原流程；(b)改进后</p> 
+
+<p>
+
 测试结果显示，对于几乎所有的蛋白，CPU 部分（包含 MSA 和模版搜索）都消耗了大量的时间，占总时间的 30% 到 70%。其中，jackHMMER 的两个搜索时间在不同长度的蛋白中表现较为稳定，均为 5 分钟左右。第三个搜索 HHblits 耗时最多，且计算速度波动大，即便在相似长度的序列中也存在较大波动。HHblits 在一些测试蛋白中用时极多，甚至超过 50\% 的总任务时间。
 </p><p>
 整体上，AlphaFold 计算需要 GPU。AlphaFold 虽然也能全部在 CPU 上运行，但速度极慢。
 </p><p>
 综上所述，AlphaFold 计算存在效率低下的问题，某些计算中 GPU 利用率低于 20%，造成 GPU 资源的浪费。因此，为了提升计算效率，满足大规模计算需求，AlphaFold 的 CPU 与 GPU 分离和优化，就显得十分必要。
-</p><p>
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=0.45\textwidth]{FIG/CPU.png}
-\caption{CPU 与 GPU 分离后，CPU 计算分布}
-\label{Fig.CPU}
-\end{figure}
+</p>
 
 <div id="4.2"><h3>CPU 与 GPU 分离</h3></div>
 
@@ -368,14 +351,15 @@ AlphaFold 计算中，CPU 环节里的 HHblits 程序要在 1.7 TB 的数据集�
 我们修改代码将 AlphaFold 流程中的 CPU 与 GPU 计算分离，设计出一套支持 CPU 多线程高并发计算的脚本。不仅避免了 GPU 资源浪费，也能凭借丰富的 CPU 资源，实现大规模蛋白结构预测。
 </p><p>
 CPU 与 GPU 计算拆分后，单个蛋白结构预测所需的时间并无明显变化，但对于高通量蛋白结构预测的效率则能够显著提高。
-</p><p>
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=0.45\textwidth]{FIG/GPU.png}
-\caption{CPU 与 GPU 分离后，在单台 DGX-2 上的 GPU 计算时间分布及  GPU 负载}
-\label{Fig.GPU}
-\end{figure}
-</p><p>
+</p>
+<p>
+    <img src="FIG/CPU.png" alt="CPU" title="Large example image" />
+    <p>图7 CPU 与 GPU 分离后，CPU 计算分布</p> 
+<p>
+    <img src="FIG/GPU.png" alt="GPU" title="Large example image" />
+    <p>图8 CPU 与 GPU 分离后，在单台 DGX-2 上的 GPU 计算时间分布及 GPU 负载</p> 
+<p>
+
 我们测试选用的结构预测中共有 103 个蛋白（其中 CPU 计算部分实际运行了 302 个蛋白，GPU 计算了其中的 103 个蛋白），这个规模可反映出高通量蛋白结构预测计算的特点。测试结果如图 \ref{Fig.CPU} 和 \ref{Fig.GPU} 所示。测试中，GPU 计算运行于一台 DGX-2 节点，包含 16 块 NVIDIA Tesla V100 GPU 卡。
 
 </p><p>
@@ -388,26 +372,15 @@ CPU 与 GPU 计算拆分后，单个蛋白结构预测所需的时间并无明�
 借助高性能计算平台的优势，在 CPU 与 GPU 分离后，将 CPU 的三步搜索并行，充分利用多线程并行的优势，计算速度可以提升一倍。
 </p><p>
 测试使用两组蛋白（图 \ref{Fig.CPUparallel}），并行计算的时间比串行缩短一半。串行总时间为各步时间之和，并行总时间约等于最耗时的 HHblits 的时间。
-</p><p>
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=0.48\textwidth]{FIG/CPUparallel.png}
-\caption{两组蛋白的 CPU 运行时间，分别为优化前的串行，和优化后的并行}
-\label{Fig.CPUparallel}
-\end{figure}
 </p>
+<p>
+    <img src="FIG/CPUparallel.png" alt="CPUparallel" title="Large example image" />
+    <p>图9 两组蛋白的 CPU 运行时间，分别为优化前的串行，和优化后的并行</p> 
 
 <div id="4.4"><h3>I/O 优化后</h3></div>
 
 <p>
 为保障多用户同时在 HPC 上运行 AlphaFold 的计算效率，解决多任务随机搜索海量数据集时的 I/O 瓶颈问题，我们经过测试，有以下推荐：
-</p><p>
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=0.48\textwidth]{FIG/IO.png}
-\caption{三组蛋白（各计算两次）的运行时间。分别使用 Lustre SSD 和 DGX-2 本地 SSD 的数据}
-\label{Fig.IO}
-\end{figure}
 </p><p>
 <ul>
     <li>优先推荐使用 DGX-2 本地的 NVMe SSD 存储。在每台 DGX-2 SSD 上均放置数据；
@@ -417,7 +390,11 @@ CPU 与 GPU 计算拆分后，单个蛋白结构预测所需的时间并无明�
 </ul>
 </p>
 <p>
-分别使用 DGX-2 本地的 SSD 和 Lustre 上的 SSD，三种蛋白各测试两次，运行时间见上图。可以看出，使用 DGX-2 本地的数据能明显加快计算，且计算速度很稳定。相反，使用 Lustre 上的数据，计算很慢，且速度波动大。
+分别使用 DGX-2 本地的 SSD 和 Lustre 上的 SSD，三种蛋白各测试两次，运行时间见下图。可以看出，使用 DGX-2 本地的数据能明显加快计算，且计算速度很稳定。相反，使用 Lustre 上的数据，计算很慢，且速度波动大。
+</p>
+<p>
+    <img src="FIG/IO.png" alt="IO" title="Large example image" />
+    <p>图10 三组蛋白（各计算两次）的运行时间。分别使用 Lustre SSD 和 DGX-2 本地 SSD 的数据</p> 
 </p>
 
 <div id="5"><h2>结束语</h2></div>
