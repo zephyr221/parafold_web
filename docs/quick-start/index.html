@@ -222,26 +222,59 @@ AlphaFold 部署具有一定难度，体现在硬件、软件、数据、文档�
 </ul>
 </p>
 
-\begin{table}[htbp]
-\centering
-\caption{\label{tab:dataset}AlphaFold 计算所需的数据集}
-\begin{tabular}{lll}
-\hline
-序列数据集 & 数据量 & 说明\\
-\hline
-UniRef90   &   58 GB  &   来自 UniProt\\
-BFD  & 1.7 TB  &  AlphaFold 自建\\
-MGnify clusters  & 64 GB   &  宏基因组\\
-\hline
-& &  \\
-\hline
-结构数据集 & 数据量 & 说明\\
-\hline
-PDB  & 206 GB   & 用于训练\\
-PDB70  &   56 GB  &   结构模板 \\
-\hline
-\end{tabular}
-\end{table}
+<table>
+    <thead>
+      <tr>
+        <th>序列数据集</th>
+        <th>数据量</th>
+        <th>说明</th>
+      </tr>
+    </thead>
+    <tfoot>
+      <tr>
+        <td>UniRef90</td>
+        <td>58 GB</td>
+        <th>来自 UniProt</th>
+      </tr>
+    </tfoot>
+    <tbody>
+      <tr>
+        <td>BFD</td>
+        <td>1.7 TB</td>
+        <th>AlphaFold 自建</th>
+      </tr>
+      <tr>
+        <td>MGnify clusters</td>
+        <td>64 GB</td>
+        <th>宏基因组</th>
+      </tr>
+    </tbody>
+</table>
+
+<table>
+    <thead>
+      <tr>
+        <th>结构数据集</th>
+        <th>数据量</th>
+        <th>说明</th>
+      </tr>
+    </thead>
+    <tfoot>
+      <tr>
+        <td>PDB</td>
+        <td>206 GB</td>
+        <th>用于训练</th>
+      </tr>
+    </tfoot>
+    <tbody>
+      <tr>
+        <td>PDB70</td>
+        <td>56 GB</td>
+        <th>结构模板</th>
+      </tr>
+    </tbody>
+</table>
+
 
 <div id="2.2"><h3>docker 安装方法</h3></div>
 
@@ -262,22 +295,51 @@ conda 安装注意事项：
 </ul>
 </p><p>
 
-\begin{table}[htbp]
-\centering
-\caption{\label{tab:cuda}conda 安装时的版本选择}
-\begin{tabular}{lll}
-\hline
-CUDA driver & 11.0 & 10.2\\
-\hline
-python  & 3.8/3.7  &  3.8/3.7\\
-CUDA toolkit  & 11.0.3  & 10.1\\
-cuDNN  & 8.0.4 &  7.6\\
-jaxlib  & 0.1.69  & 0.1.69\\
-JAX     & cuda110 & cuda101 \\
-TensorFlow  & 2.5.0  & 2.3.0\\
-\hline
-\end{tabular}
-\end{table}
+<p>conda 安装时的版本选择</p>    
+<table>
+    <thead>
+      <tr>
+        <th>CUDA driver</th>
+        <th>11.0</th>
+        <th>10.2</th>
+      </tr>
+    </thead>
+    <tfoot>
+      <tr>
+        <td>python</td>
+        <td>3.8/3.7</td>
+        <th>3.8/3.7</th>
+      </tr>
+    </tfoot>
+    <tbody>
+      <tr>
+        <td>CUDA toolkit</td>
+        <td>11.0.3</td>
+        <th>10.1</th>
+      </tr>
+      <tr>
+        <td>cuDNN</td>
+        <td>8.0.4</td>
+        <th>7.6</th>
+      </tr>
+      <tr>
+        <td>jaxlib</td>
+        <td>0.1.69</td>
+        <th>0.1.69</th>
+      </tr>
+      <tr>
+        <td>JAX</td>
+        <td>cuda110</td>
+        <th>cuda101</th>
+      </tr>
+      <tr>
+        <td>TensorFlow</td>
+        <td>2.5.0</td>
+        <th>2.3.0</th>
+      </tr>
+    </tbody>
+</table>    
+
 
 <div id="3"><h2>AlphaFold 优化</h2></div>
 
