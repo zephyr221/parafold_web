@@ -77,7 +77,7 @@
 <div id="0"><h2>引言</h2></div>
 
 <p>
-高精度蛋白结构预测能够为生命科学和医学研究带来丰富的启示，成为改变生命科学研究范式的重要契机。快速精准的大规模蛋白结构预测能够激发基础科学、药物研发、合成生物学等方面的未来发展。DeepMind 团队开发的基于深度神经网络的 AlphaFold  方法达到了前所未有的预测准确度，解决了半世纪以来生物学领域最大的挑战，为推进科学进步作出重要贡献。 2021 年 7 月，AlphaFold 的细节在  Nature 杂志上公开<sup id="fnref:fn-1" role="doc-noteref"><a href="#fn:fn-1" class="footnote" rel="footnote">1</a></sup> ，代码也同时开源<sup id="fnref:fn-2" role="doc-noteref"><a href="#fn:fn-2" class="footnote" rel="footnote">2</a></sup> 。
+高精度蛋白结构预测能为生命科学和医学研究带来丰富的启示，成为改变生命科学研究范式的重要契机。快速精准的大规模蛋白结构预测能够激发基础科学、药物研发、合成生物学等方面的未来发展。DeepMind 团队开发的基于深度神经网络的 AlphaFold  方法达到了前所未有的预测准确度，解决了半世纪以来生物学领域最大的挑战，为推进科学进步作出重要贡献。 2021 年 7 月，AlphaFold 的细节在  Nature 杂志上公开<sup id="fnref:fn-1" role="doc-noteref"><a href="#fn:fn-1" class="footnote" rel="footnote">1</a></sup> ，代码也同时开源<sup id="fnref:fn-2" role="doc-noteref"><a href="#fn:fn-2" class="footnote" rel="footnote">2</a></sup> 。
 </p><p>
 AlphaFold 建立了蛋白序列与结构之间的联系，有助于人们更好的发现蛋白的功能。在蛋白功能研究中，解析一个蛋白的结构只能得到部分的信息，而要知道整个蛋白的功能，往往需要解析很多个蛋白，以便通过结构对比、蛋白质互作分析等方法找出其中蕴含的结构范式。因此，AlphaFold 需要能够胜任多条蛋白序列的预测任务，计算规模从突变体库的几十、上百个蛋白，上至蛋白组级别的成千上万条序列。AlphaFold 的计算效率也因此被寄予厚望。然而，测试发现，AlphaFold 代码由于新近发布，CPU、GPU、I/O 等均缺少优化，计算效率较低，难以满足大规模的计算需求<sup id="fnref:fn-2" role="doc-noteref"><a href="#fn:fn-2" class="footnote" rel="footnote">2</a></sup>。
 </p><p>
