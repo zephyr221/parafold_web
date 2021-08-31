@@ -152,137 +152,31 @@
         <p class="archive__item-excerpt" itemprop="description">How to quickly install and setup Minimal Mistakes for use with GitHub Pages.</p>
       </article>
     </div>
-        
-      
-        
-     
-    
-      
-    
-        
-      
-    
-      </div>
-    </div>
-          <div align="center" style="margin: 1em 0;">
-            <ins class="adsbygoogle"
-                 style="display:block; border-bottom: initial;"
-                 data-ad-client="ca-pub-7328585512091257"
-                 data-ad-slot="3049671934"
-                 data-ad-format="auto"
-                 data-full-width-responsive="true"></ins>
-          </div>
-        </div>
-    
-        
-          <div class="search-content">
-            <div class="search-content__inner-wrap"><div class="search-searchbar"></div>
-      <div class="search-hits"></div></div>
-    
-          </div>
-        
-    
-        <div class="page__footer">
-          <footer>
-            <!-- start custom footer snippets -->
-    
-    <!-- end custom footer snippets -->
-            <div class="page__footer-follow">
-      <ul class="social-icons">
-        
-    
-        
-          
-            
-              <li><a href="https://twitter.com/mmistakes" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter</a></li>
-            
-          
-            
-              <li><a href="https://github.com/mmistakes" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
-            
-          
-            
-              <li><a href="https://instagram.com/mmistakes" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i> Instagram</a></li>
-            
-          
-        
-    
-        
-          <li><a href="/minimal-mistakes/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
-        
-      </ul>
-    </div>
-    
-    <div class="page__footer-copyright">&copy; 2021 Michael Rose. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
-    
-          </footer>
-        </div>
-    
-        
-      <script src="/minimal-mistakes/assets/js/main.min.js"></script>
-    
-    
-    <!-- Including InstantSearch.js library and styling -->
-    <script src="https://cdn.jsdelivr.net/npm/instantsearch.js@2.3.3/dist/instantsearch.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/instantsearch.js@2.3.3/dist/instantsearch.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/instantsearch.js@2.3.3/dist/instantsearch-theme-algolia.min.css">
-    
-    <script>
-    // Instanciating InstantSearch.js with Algolia credentials
-    const search = instantsearch({
-      appId: 'QB6HVGBSBA',
-      apiKey: '9d5014e5bbc77372547bce778dfa5663',
-      indexName: 'minimal_mistakes',
-      searchParameters: {
-        restrictSearchableAttributes: [
-          'title',
-          'content'
-        ]
-      }
-    });
-    
-    const hitTemplate = function(hit) {
-      const url = hit.url;
-      const title = hit._highlightResult.title.value;
-      const content = hit._highlightResult.html.value;
-    
-      return `
-        <div class="list__item">
-          <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-            <h2 class="archive__item-title" itemprop="headline"><a href="/minimal-mistakes${url}">${title}</a></h2>
-            <div class="archive__item-excerpt" itemprop="description">${content}</div>
-          </article>
-        </div>
-      `;
-    }
-    
-    // Adding searchbar and results widgets
-    search.addWidget(
-      instantsearch.widgets.searchBox({
-        container: '.search-searchbar',
-        poweredBy: true,
-        placeholder: 'Enter your search term...'
-      })
-    );
-    search.addWidget(
-      instantsearch.widgets.hits({
-        container: '.search-hits',
-        templates: {
-          item: hitTemplate,
-          empty: 'No results',
-        }
-      })
-    );
-    
-    // Starting the search only when toggle is clicked
-    $(document).ready(function () {
-      $(".search__toggle").on("click", function() {
-        if(!search.started) {
-          search.start();
-        }
-      });
-    });
-    </script>
-        
-      </body>
-    </html>  
+  </div>
+</div>
+
+
+
+
+<div class="search-content">
+  <div class="search-content__inner-wrap">
+    <div class="search-searchbar"></div>
+    <div class="search-hits"></div>
+  </div>
+</div>
+
+<div class="page__footer">
+<footer>
+  <div class="page__footer-follow">
+    <ul class="social-icons">
+    <li><a href="https://github.com/Zuricho/ParallelFold" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+    </ul>
+  </div>
+  <div class="page__footer-copyright">Bozitao Zhong @SJTU Copyright 2021 SJTU Network & Information Center All rights reserved. (沪交ICP备20210257) </div>
+</footer>
+</div>
+
+<script src="/assets/js/main.min.js"></script>
+
+
+</body></html>
