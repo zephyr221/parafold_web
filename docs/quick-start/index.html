@@ -33,7 +33,7 @@
     AlphaFold is based on deep neural networks to predict protein morphology, which can quickly generate highly accurate protein structures and has received wide attention in life science and medical research. Shanghai Jiao Tong University is the first to deploy and optimize AlphaFold on a high performance computing platform, making it faster, more accurate, and more convenient. The deployment adopts docker method and conda method. Optimization is performed at four levels: CPU and GPU separation, CPU parallel optimization, GPU optimization, and I/O optimization. After optimization, AlphaFold can realize large-scale high-throughput computing and improve computing efficiency by 12 times per NVIDIA Tesla V100, effectively solving I/O bottlenecks and saving GPU computing resources.
 </p>
 
-<p><a class="hvr-ripple-out" href="/jmp.pdf"">Download PDF</a></p> 
+<p><a " href="/jmp.pdf"">Download PDF</a></p> 
 
 <h1 class="page-title">AlphaFold 在 HPC 平台的部署和优化</h1>
 <p>钟博子韬, 左思成, 文敏华, 苏小明</p>
@@ -239,19 +239,19 @@ AlphaFold 部署具有一定难度，体现在硬件、软件、数据、文档�
       <tr>
         <td>UniRef90</td>
         <td>58 GB</td>
-        <th>来自 UniProt</th>
+        <td>来自 UniProt</td>
       </tr>
     </tfoot>
     <tbody>
       <tr>
         <td>BFD</td>
         <td>1.7 TB</td>
-        <th>AlphaFold 自建</th>
+        <td>AlphaFold 自建</td>
       </tr>
       <tr>
         <td>MGnify clusters</td>
         <td>64 GB</td>
-        <th>宏基因组</th>
+        <td>宏基因组</td>
       </tr>
     </tbody>
 </table>
@@ -268,14 +268,14 @@ AlphaFold 部署具有一定难度，体现在硬件、软件、数据、文档�
       <tr>
         <td>PDB</td>
         <td>206 GB</td>
-        <th>用于训练</th>
+        <td>用于训练</td>
       </tr>
     </tfoot>
     <tbody>
       <tr>
         <td>PDB70</td>
         <td>56 GB</td>
-        <th>结构模板</th>
+        <td>结构模板</td>
       </tr>
     </tbody>
 </table>
@@ -313,34 +313,34 @@ conda 安装注意事项：
       <tr>
         <td>python</td>
         <td>3.8/3.7</td>
-        <th>3.8/3.7</th>
+        <td>3.8/3.7</td>
       </tr>
     </tfoot>
     <tbody>
       <tr>
         <td>CUDA toolkit</td>
         <td>11.0.3</td>
-        <th>10.1</th>
+        <td>10.1</td>
       </tr>
       <tr>
         <td>cuDNN</td>
         <td>8.0.4</td>
-        <th>7.6</th>
+        <td>7.6</td>
       </tr>
       <tr>
         <td>jaxlib</td>
         <td>0.1.69</td>
-        <th>0.1.69</th>
+        <td>0.1.69</td>
       </tr>
       <tr>
         <td>JAX</td>
         <td>cuda110</td>
-        <th>cuda101</th>
+        <td>cuda101</td>
       </tr>
       <tr>
         <td>TensorFlow</td>
         <td>2.5.0</td>
-        <th>2.3.0</th>
+        <td>2.3.0</td>
       </tr>
     </tbody>
 </table>    
@@ -447,7 +447,7 @@ CPU 与 GPU 计算拆分后，单个蛋白结构预测所需的时间并无明�
     <div class="text-center"><p>图8 CPU 与 GPU 分离后，在单台 DGX-2 上的 GPU 计算时间分布及 GPU 负载</p> </div>
 <p>
 
-我们测试选用的结构预测中共有 103 个蛋白（其中 CPU 计算部分实际运行了 302 个蛋白，GPU 计算了其中的 103 个蛋白），这个规模可反映出高通量蛋白结构预测计算的特点。测试结果如图 \ref{Fig.CPU} 和 \ref{Fig.GPU} 所示。测试中，GPU 计算运行于一台 DGX-2 节点，包含 16 块 NVIDIA Tesla V100 GPU 卡。
+我们测试选用的结构预测中共有 103 个蛋白（其中 CPU 计算部分实际运行了 302 个蛋白，GPU 计算了其中的 103 个蛋白），这个规模可反映出高通量蛋白结构预测计算的特点。测试结果如图所示。测试中，GPU 计算运行于一台 DGX-2 节点，包含 16 块 NVIDIA Tesla V100 GPU 卡。
 
 </p><p>
 测试结果发现，CPU 部分的计算确实呈现时间波动性。大部分 CPU 运行时间分布在 1 至 4 小时，只有极少数的计算超过 7 小时（且这些任务往往内存溢出报错）。而在 GPU 部分，大部分任务运行时间分布在 0.1 至 0.4 小时之间，平均运行时间不到 20 分钟。整体来看，一台包含 16 块 NVIDIA Tesla V100 卡的 DGX-2 上花费 1.2 小时，就完成 103 个蛋白的结构预测。平均下来，8 台 DGX-2 运行 48 小时能够完成超过 3 万个蛋白的结构预测，胜过 AlphaFold Nature 论文<sup id="fnref:fn-8" role="doc-noteref"><a href="#fn:fn-8" class="footnote" rel="footnote">8</a></sup> 中预测的人类蛋白质组数量 (23,391 个)；8 台 DGX-2 运行 120 小时即可完成超过 8 万个蛋白的预测，这个数量已经超过完整的人类蛋白质组 (78,120 个)。
