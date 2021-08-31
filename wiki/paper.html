@@ -131,12 +131,12 @@
     </div>
   </div>
 
-  <div class="container content" font-size: .75em>
+  <div class="container content">
     <main>
     <article class="page">
       <h1 class="page-title">AlphaFold Deployment and Optimization on HPC Platform</h1>
       <p>Bozitao Zhong, Sicheng Zuo, Minhua Wen, Xiaoming Su</p>
-      <p class="message">
+      <p style="font-size: small" class="message">
         AlphaFold is based on deep neural networks to predict protein morphology, which can quickly generate highly accurate protein structures and has received wide attention in life science and medical research. Shanghai Jiao Tong University is the first to deploy and optimize AlphaFold on a high performance computing platform, making it faster, more accurate, and more convenient. The deployment adopts docker method and conda method. Optimization is performed at four levels: CPU and GPU separation, CPU parallel optimization, GPU optimization, and I/O optimization. After optimization, AlphaFold can realize large-scale high-throughput computing and improve computing efficiency by 12 times per NVIDIA Tesla V100, effectively solving I/O bottlenecks and saving GPU computing resources.
     </p>
     
@@ -144,7 +144,7 @@
     
     <h1 class="page-title">AlphaFold 在 HPC 平台的部署和优化</h1>
     <p>钟博子韬, 左思成, 文敏华, 苏小明</p>
-    <p class="message">AlphaFold 基于深度神经网络预测蛋白质形态，能够快速生成高精确度的蛋白质结构，在生命科学和医学研究领域受到广泛关注。上海交通大学率先完成 AlphaFold 在高性能计算平台的部署和优化，使其更快、更准、更便捷。部署采用 docker 法和 conda 法。优化分四个层面进行：CPU 与 GPU 分离、CPU 并行优化、GPU 优化和 I/O 优化。优化后，AlphaFold 可实现大规模高通量计算，每块 NVIDIA Tesla V100 计算效率提升 12 倍，能够有效解决 I/O 瓶颈、节省 GPU 计算资源。
+    <p style="font-size: small"  class="message">AlphaFold 基于深度神经网络预测蛋白质形态，能够快速生成高精确度的蛋白质结构，在生命科学和医学研究领域受到广泛关注。上海交通大学率先完成 AlphaFold 在高性能计算平台的部署和优化，使其更快、更准、更便捷。部署采用 docker 法和 conda 法。优化分四个层面进行：CPU 与 GPU 分离、CPU 并行优化、GPU 优化和 I/O 优化。优化后，AlphaFold 可实现大规模高通量计算，每块 NVIDIA Tesla V100 计算效率提升 12 倍，能够有效解决 I/O 瓶颈、节省 GPU 计算资源。
     </p>
     <p>
     <ul>
@@ -185,7 +185,7 @@
     
     <div id="0"><h2>引言</h2></div>
     
-    <p>
+    <p style="font-size: small" >
     高精度蛋白结构预测能为生命科学和医学研究带来丰富的启示，成为改变生命科学研究范式的重要契机。快速精准的大规模蛋白结构预测能够激发基础科学、药物研发、合成生物学等方面的未来发展。DeepMind 团队开发的基于深度神经网络的 AlphaFold  方法达到了前所未有的预测准确度，解决了半世纪以来生物学领域最大的挑战，为推进科学进步作出重要贡献。 2021 年 7 月，AlphaFold 的细节在  Nature 杂志上公开<sup id="fnref:fn-1" role="doc-noteref"><a href="#fn:fn-1" class="footnote" rel="footnote">1</a></sup> ，代码也同时开源<sup id="fnref:fn-2" role="doc-noteref"><a href="#fn:fn-2" class="footnote" rel="footnote">2</a></sup> 。
     </p><p>
     AlphaFold 建立了蛋白序列与结构之间的联系，有助于人们更好的发现蛋白的功能。在蛋白功能研究中，解析一个蛋白的结构只能得到部分的信息，而要知道整个蛋白的功能，往往需要解析很多个蛋白，以便通过结构对比、蛋白质互作分析等方法找出其中蕴含的结构范式。因此，AlphaFold 需要能够胜任多条蛋白序列的预测任务，计算规模从突变体库的几十、上百个蛋白，上至蛋白组级别的成千上万条序列。AlphaFold 的计算效率也因此被寄予厚望。然而，测试发现，AlphaFold 代码由于新近发布，CPU、GPU、I/O 等均缺少优化，计算效率较低，难以满足大规模的计算需求<sup id="fnref:fn-2" role="doc-noteref"><a href="#fn:fn-2" class="footnote" rel="footnote">2</a></sup>。
