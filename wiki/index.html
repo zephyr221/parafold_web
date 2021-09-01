@@ -265,11 +265,18 @@
             <a href="https://jax.readthedocs.io/en/latest/gpu_memory_allocation.html#gpu-memory-allocation">https://jax.readthedocs.io/en/latest/gpu_memory_allocation.html#gpu-memory-allocation</a>
           </div>
 
-          <p><a href="https://github.com/deepmind/alphafold/issues/30">Issue 30&66: Distribution over multiple GPUs</a></p>
+          <p><a href="https://github.com/deepmind/alphafold/issues/136">Issue 136: change the number of recycling</a></p>
           <div class="message">
-            (<a href="https://github.com/abridgland">abridgland</a>) This code is not designed to make use of more than one GPU.<br><br>
+            (<a href="https://github.com/tfgg">tfgg</a>) You can change the number of recycling iterations in AlphaFold by changing these two configuration options (to the same new number): <br><br>
 
-            (<a href="https://github.com/tfgg">tfgg</a>) We don't parallelize the model itself in JAX over multiple GPUs, but we do enable unified memory which should (CUDA might be smarter) at least be able to use the host RAM as well. 
+            <code class="language-plaintext highlighter-rouge">&lt;config.data.common.num_recycle
+              config.model.num_recycle &gt;</code><br><br>
+
+            this could be done, for example, in this function.<br><br>
+
+            However, I would caution that increasing the number of recycling iterations to beyond the number used at training time ("hypercycling" as I like to call it) isn't officially tested or validated to actually provide higher levels of accuracy on an appropriate test set. Anecdotally there appears to be some successes and that unofficial Colab notebook you mention does provide the ability to do so.<br><br>
+
+            It might be the case that pLDDT is no longer an accurate estimate of model confidence when the model is hypercycled, but you can use your own judgement and knowledge of the target to decide when to trust the prediction. Good luck!
           </div>
 
 
