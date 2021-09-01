@@ -174,7 +174,7 @@
           <div class="message">
             (<a href="https://github.com/tfgg">tfgg</a>) You can run without a GPU (with the --use_gpu=False flag) but it'll be much slower.<br><br>
 
-            (<a href="https://github.com/tfgg">tfgg</a>) You can run outside Docker without GPU by setting CUDA_VISIBLE_DEVICES to be empty (0 will correspond to the first GPU). If your machine doesn't have a GPU, this won't be necessary and it will run on CPU.
+            (<a href="https://github.com/tfgg">tfgg</a>) You can run outside Docker without GPU by setting CUDA_VISIBLE_DEVICES to be empty (0 will correspond to the first GPU). If your machine doesn't have a GPU, this won't be necessary and it will run on CPU.<br><br>
 
             (<a href="https://github.com/huhlim">huhlim</a>) For the timing using CPU, it took more than predictions using GPUs. For a ~140 residue protein, it took ~25 minutes x 5 models for model buildings + ~25 minutes for the input feature generation. I have two Intel Xeon Silver 4214 @ 2.2GHz (24 threads for each) on a node. I have no idea how many threads were used for the inference.
           </div>
@@ -215,6 +215,63 @@
             which trades memory for speed. Picking the right value will depend on your inputs and hardware. <br><br>
             
             Finally, depending on how much you care about accuracy, you could simply run just 1 or 2 models rather than all 5. I hope that helps!
+          </div>
+
+          <p><a href="https://github.com/deepmind/alphafold/issues/67">Issue 67: compiling the AlphaFold model</a></p>
+          <div class="message">
+            (<a href="https://github.com/abridgland">abridgland</a>) Model compilation is performed by the CPU. Only model inference is performed on the GPU.
+          </div>
+
+          <p><a href="https://github.com/deepmind/alphafold/issues/92">Issue 92: visualization in Colab</a></p>
+          <div class="message">
+            (<a href="https://github.com/ValZapod">ValZapod</a>) That is using <a href="https://github.com/molstar/molstar/issues/236">molstar/molstar#236</a>
+          </div>
+
+          <p><a href="https://github.com/deepmind/alphafold/issues/150">Issue 150: standard amino acids in FASTA sequences</a></p>
+          <div class="message">
+            (<a href="https://github.com/AnyaP">AnyaP</a>) AlphaFold expects an input query sequence with capitalized one-letter amino-acid types from this set:
+
+            <code class="language-plaintext highlighter-rouge">&lt;restypes = [ 
+              'A', 'R', 'N', 'D', 'C', 'Q', 'E', 'G', 'H', 'I', 'L', 'K', 'M', 'F', 'P', 
+              'S', 'T', 'W', 'Y', 'V' 
+          ] &gt;</code><br><br>
+            
+            Just to clarify, the input can't be a Multiple Sequence Alignment, so it shouldn't include '-' or lowercase characters. In case there are any unknown amino-acid types (represented by capital letters not from the set above), they can be converted to 'X' (see here), but this is unsupported on the Amber relaxation stage.
+          </div>
+
+          <p><a href="https://github.com/deepmind/alphafold/issues/123">Issue 123: speed up the HHblits</a></p>
+          <div class="message">
+            (<a href="https://github.com/andzajan">andzajan</a>) Increasing memory for the job on HPC from 32 GB to 64 GB did speed up hhblits step from 12 hours to about 2 hours for 1100 residues sequence.
+            Once it has been cached it's even faster.<br><br>
+            
+            Some other recommedation are here: <a href="https://github.com/soedinglab/hh-suite/wiki#running-hhblits-efficiently-on-a-computer-cluster">https://github.com/soedinglab/hh-suite/wiki#running-hhblits-efficiently-on-a-computer-cluster</a><br><br>
+            
+            HHblits has to do a lot of I/O operations, so storing DB's on very fast SSD will help as well.
+          </div>
+
+          <p><a href="https://github.com/deepmind/alphafold/issues/149">Issue 149: CUDA Unified Memory</a></p>
+          <div class="message">
+            (<a href="https://github.com/AnyaP">AnyaP</a>) You could try increasing the value of XLA_PYTHON_CLIENT_MEM_FRACTION flag, which is set to 4.0 by default:
+            alphafold/docker/run_docker.py Line 185<br><br>
+            
+            <code class="language-plaintext highlighter-rouge">&lt;'XLA_PYTHON_CLIENT_MEM_FRACTION': '4.0', &gt;</code> <br><br>
+             
+            Currently this allows allocating no more than 4*GPU_RAM in total, so you could be hitting this limit.<br><br>
+
+            (<a href="https://github.com/tfgg">tfgg</a>) As far as I understanding the paging mechanism with unified memory will use the VRAM first, so there shouldn't be any performance hit when increasing the memory fraction.. 
+          </div>
+
+          <p><a href="https://github.com/deepmind/alphafold/issues/30">Issue 30&66: Distribution over multiple GPUs</a></p>
+          <div class="message">
+            (<a href="https://github.com/abridgland">abridgland</a>) This code is not designed to make use of more than one GPU.<br><br>
+
+            (<a href="https://github.com/tfgg">tfgg</a>) We don't parallelize the model itself in JAX over multiple GPUs, but we do enable unified memory which should (CUDA might be smarter) at least be able to use the host RAM as well. 
+          </div>
+          <p><a href="https://github.com/deepmind/alphafold/issues/30">Issue 30&66: Distribution over multiple GPUs</a></p>
+          <div class="message">
+            (<a href="https://github.com/abridgland">abridgland</a>) This code is not designed to make use of more than one GPU.<br><br>
+
+            (<a href="https://github.com/tfgg">tfgg</a>) We don't parallelize the model itself in JAX over multiple GPUs, but we do enable unified memory which should (CUDA might be smarter) at least be able to use the host RAM as well. 
           </div>
 
           <p><a href="https://github.com/deepmind/alphafold/issues/30">Issue 30&66: Distribution over multiple GPUs</a></p>
