@@ -151,6 +151,69 @@
           </table> 
           
           <div id="issue"><h2 id="docs" class="archive__subtitle">GitHub Issues</h2></div>
+
+          <p><a href="https://github.com/deepmind/alphafold/issues/5">Issue 5: Database disk type</a></p>
+          <div class="message">
+            (<a href="https://github.com/Augustin-Zidek">Augustin-Zidek</a>) The genetic search tools are very IO intensive, hence having an SSD helps.<br><br>
+            For more details see e.g. the HH Suite wiki that discusses HHBlits performance: <a href="https://github.com/soedinglab/hh-suite/wiki#running-hhblits-efficiently-on-a-computer-cluster">https://github.com/soedinglab/hh-suite/wiki#running-hhblits-efficiently-on-a-computer-cluster</a>
+          </div>
+
+          <p><a href="https://github.com/deepmind/alphafold/issues/6">Issue 6: How long does it take on T1050 (779 residues)</a></p>
+          <div class="message">
+            (<a href="https://github.com/Augustin-Zidek">Augustin-Zidek</a>) This is hard to answer without more context, especially without knowing the speed of your CPU and your hard drive (whether it is an SSD or an HDD).<br><br>
+            But in general, you can expect the time to grow with the length of the protein and the MSA search taking up to a few hours with a slow disk / CPU.<br><br>
+            For the actual folding (i.e. running the AlphaFold model), the disk speed doesn't matter anymore, what matters is whether you are using a GPU and its performance.
+          </div>
+
+          <p><a href="https://github.com/deepmind/alphafold/issues/9">Issue 9: AlphaFold's speed</a></p>
+          <div class="message">
+            (<a href="https://github.com/tfgg">tfgg</a>) If you read the Nature paper, you'll see that AlphaFold 2 is more accurate, and the GPU times are in fact very fast: 0.6 minutes at 256 residues, 1.1 minutes at 384 residues, and 2.1 hours at 2,500 residues. These appear to be comparable to or faster than RoseTTAFold.
+          </div>
+          
+          <p><a href="https://github.com/deepmind/alphafold/issues/12">Issue 12: GPU required?</a></p>
+          <div class="message">
+            (<a href="https://github.com/tfgg">tfgg</a>) You can run without a GPU (with the --use_gpu=False flag) but it'll be much slower.<br><br>
+
+            (<a href="https://github.com/huhlim">huhlim</a>) For the timing using CPU, it took more than predictions using GPUs. For a ~140 residue protein, it took ~25 minutes x 5 models for model buildings + ~25 minutes for the input feature generation. I have two Intel Xeon Silver 4214 @ 2.2GHz (24 threads for each) on a node. I have no idea how many threads were used for the inference.
+          </div>
+
+
+          <p><a href="https://github.com/deepmind/alphafold/issues/9">Issue 20: jaxlib version</a></p>
+          <div class="message">
+            (<a href="https://github.com/tfgg">tfgg</a>) We require version of 0.1.69 jaxlib to be able to use CUDA unified memory for running long sequences. If you don't need this you can probably run with 0.1.68, but that might be related to the illegal address error that you see. 
+          </div>
+
+
+
+
+
+
+
+
+
+
+
+
+          <code class="language-plaintext highlighter-rouge">&lt;code&gt;</code> 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+          
           
           <div id="video"><h2 id="docs" class="archive__subtitle">Video</h2></div>
           <p>钟博子韬 2021-07-22 </p>
