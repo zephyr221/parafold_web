@@ -174,14 +174,63 @@
           <div class="message">
             (<a href="https://github.com/tfgg">tfgg</a>) You can run without a GPU (with the --use_gpu=False flag) but it'll be much slower.<br><br>
 
+            (<a href="https://github.com/tfgg">tfgg</a>) You can run outside Docker without GPU by setting CUDA_VISIBLE_DEVICES to be empty (0 will correspond to the first GPU). If your machine doesn't have a GPU, this won't be necessary and it will run on CPU.
+
             (<a href="https://github.com/huhlim">huhlim</a>) For the timing using CPU, it took more than predictions using GPUs. For a ~140 residue protein, it took ~25 minutes x 5 models for model buildings + ~25 minutes for the input feature generation. I have two Intel Xeon Silver 4214 @ 2.2GHz (24 threads for each) on a node. I have no idea how many threads were used for the inference.
           </div>
 
-
-          <p><a href="https://github.com/deepmind/alphafold/issues/9">Issue 20: jaxlib version</a></p>
+          <p><a href="https://github.com/deepmind/alphafold/issues/20">Issue 20: jaxlib version</a></p>
           <div class="message">
             (<a href="https://github.com/tfgg">tfgg</a>) We require version of 0.1.69 jaxlib to be able to use CUDA unified memory for running long sequences. If you don't need this you can probably run with 0.1.68, but that might be related to the illegal address error that you see. 
           </div>
+
+
+          <p><a href="https://github.com/deepmind/alphafold/issues/53">Issue 53: GDT and lDDT Scores</a></p>
+          <div class="message">
+            (<a href="https://github.com/abridgland">abridgland</a>) There are a number of external tools available for computing these metrics. For GDT consider using LGA <a href="http://proteinmodel.org/AS2TS/LGA/lga.html">(http://proteinmodel.org/AS2TS/LGA/lga.html)</a> and for lDDT consider the SWISS-MODEL server <a href="https://swissmodel.expasy.org/lddt">(https://swissmodel.expasy.org/lddt)</a>. These tools are reference implementations for their respective metrics. Please note that the lDDT scores will be computed on all atoms, not just C-alpha atoms. When we use the latter in our paper it is referred to as lDDT-Ca. 
+          </div>
+
+          <p><a href="https://github.com/deepmind/alphafold/issues/61">Issue 61: predicted TM-score (pTM)</a></p>
+          <div class="message">
+            (<a href="https://github.com/abridgland">abridgland</a>) The *_ptm models were fine-tuned from the non-pTM models (see section 1.9.7 in the supplementary information of our paper). This is why the outputs from these models do not match exactly.<br><br>
+
+            We recommend running the non-pTM models for structure prediction because these were used in CASP14 and have been the most thoroughly validated. We think that the pTM models are very slightly worse than the regular models (around 0.5 GDT on CASP14). You can also run one of the pTM models separately in order to get predicted aligned error. This is the protocol we use in our Colab notebook (we choose model_2_ptm for predicted aligned errors).
+          </div>
+
+
+          <p><a href="https://github.com/deepmind/alphafold/issues/30">Issue 30&66: Distribution over multiple GPUs</a></p>
+          <div class="message">
+            (<a href="https://github.com/abridgland">abridgland</a>) This code is not designed to make use of more than one GPU.<br><br>
+
+            (<a href="https://github.com/tfgg">tfgg</a>) We don't parallelize the model itself in JAX over multiple GPUs, but we do enable unified memory which should (CUDA might be smarter) at least be able to use the host RAM as well. 
+          </div>
+
+          <p><a href="https://github.com/deepmind/alphafold/issues/74">Issue 74: Speed up prediction</a></p>
+          <div class="message">
+            (<a href="https://github.com/abridgland">abridgland</a>) See <a href=">https://github.com/deepmind/alphafold#inferencing-many-proteins">https://github.com/deepmind/alphafold#inferencing-many-proteins</a> for advice on how to avoid re-compilations when inferencing many proteins if that is relevant to your use case.<br><br>
+
+            In general having more GPU memory won’t help speed up model inference unless you’re finding the GPU memory is full (i.e. you’re overflowing to host RAM). However you may be able to improve speed a bit by using a larger subbatch size: alphafold/alphafold/model/config.py Line 325<br><br>
+
+            <code class="language-plaintext highlighter-rouge">&lt;'subbatch_size': 4,&gt;</code> <br><br>
+            which trades memory for speed. Picking the right value will depend on your inputs and hardware. <br><br>
+            
+            Finally, depending on how much you care about accuracy, you could simply run just 1 or 2 models rather than all 5. I hope that helps!
+          </div>
+
+          <p><a href="https://github.com/deepmind/alphafold/issues/30">Issue 30&66: Distribution over multiple GPUs</a></p>
+          <div class="message">
+            (<a href="https://github.com/abridgland">abridgland</a>) This code is not designed to make use of more than one GPU.<br><br>
+
+            (<a href="https://github.com/tfgg">tfgg</a>) We don't parallelize the model itself in JAX over multiple GPUs, but we do enable unified memory which should (CUDA might be smarter) at least be able to use the host RAM as well. 
+          </div>
+
+          <p><a href="https://github.com/deepmind/alphafold/issues/30">Issue 30&66: Distribution over multiple GPUs</a></p>
+          <div class="message">
+            (<a href="https://github.com/abridgland">abridgland</a>) This code is not designed to make use of more than one GPU.<br><br>
+
+            (<a href="https://github.com/tfgg">tfgg</a>) We don't parallelize the model itself in JAX over multiple GPUs, but we do enable unified memory which should (CUDA might be smarter) at least be able to use the host RAM as well. 
+          </div>
+
 
 
 
