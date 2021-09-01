@@ -249,7 +249,7 @@
             HHblits has to do a lot of I/O operations, so storing DB's on very fast SSD will help as well.
           </div>
 
-          <p><a href="https://github.com/deepmind/alphafold/issues/149">Issue 149: CUDA Unified Memory</a></p>
+          <p><a href="https://github.com/deepmind/alphafold/issues/149">Issue 33&149: CUDA Unified Memory</a></p>
           <div class="message">
             (<a href="https://github.com/AnyaP">AnyaP</a>) You could try increasing the value of XLA_PYTHON_CLIENT_MEM_FRACTION flag, which is set to 4.0 by default:
             alphafold/docker/run_docker.py Line 185<br><br>
@@ -258,20 +258,11 @@
              
             Currently this allows allocating no more than 4*GPU_RAM in total, so you could be hitting this limit.<br><br>
 
-            (<a href="https://github.com/tfgg">tfgg</a>) As far as I understanding the paging mechanism with unified memory will use the VRAM first, so there shouldn't be any performance hit when increasing the memory fraction.. 
-          </div>
+            (<a href="https://github.com/tfgg">tfgg</a>) As far as I understanding the paging mechanism with unified memory will use the VRAM first, so there shouldn't be any performance hit when increasing the memory fraction..  <br><br>
 
-          <p><a href="https://github.com/deepmind/alphafold/issues/30">Issue 30&66: Distribution over multiple GPUs</a></p>
-          <div class="message">
-            (<a href="https://github.com/abridgland">abridgland</a>) This code is not designed to make use of more than one GPU.<br><br>
 
-            (<a href="https://github.com/tfgg">tfgg</a>) We don't parallelize the model itself in JAX over multiple GPUs, but we do enable unified memory which should (CUDA might be smarter) at least be able to use the host RAM as well. 
-          </div>
-          <p><a href="https://github.com/deepmind/alphafold/issues/30">Issue 30&66: Distribution over multiple GPUs</a></p>
-          <div class="message">
-            (<a href="https://github.com/abridgland">abridgland</a>) This code is not designed to make use of more than one GPU.<br><br>
-
-            (<a href="https://github.com/tfgg">tfgg</a>) We don't parallelize the model itself in JAX over multiple GPUs, but we do enable unified memory which should (CUDA might be smarter) at least be able to use the host RAM as well. 
+            (<a href="https://github.com/ashrafgt">ashrafgt</a>) Consider fiddling with these options to be able to run the prediction with limited resources:<br>
+            <a href="https://jax.readthedocs.io/en/latest/gpu_memory_allocation.html#gpu-memory-allocation">https://jax.readthedocs.io/en/latest/gpu_memory_allocation.html#gpu-memory-allocation</a>
           </div>
 
           <p><a href="https://github.com/deepmind/alphafold/issues/30">Issue 30&66: Distribution over multiple GPUs</a></p>
@@ -281,12 +272,8 @@
             (<a href="https://github.com/tfgg">tfgg</a>) We don't parallelize the model itself in JAX over multiple GPUs, but we do enable unified memory which should (CUDA might be smarter) at least be able to use the host RAM as well. 
           </div>
 
-          <p><a href="https://github.com/deepmind/alphafold/issues/30">Issue 30&66: Distribution over multiple GPUs</a></p>
-          <div class="message">
-            (<a href="https://github.com/abridgland">abridgland</a>) This code is not designed to make use of more than one GPU.<br><br>
 
-            (<a href="https://github.com/tfgg">tfgg</a>) We don't parallelize the model itself in JAX over multiple GPUs, but we do enable unified memory which should (CUDA might be smarter) at least be able to use the host RAM as well. 
-          </div>
+
 
 
 
