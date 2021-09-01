@@ -228,7 +228,7 @@
 
           <p><a href="https://github.com/deepmind/alphafold/issues/150">Issue 150: standard amino acids in FASTA sequences</a></p>
           <div class="message">
-            (<a href="https://github.com/AnyaP">AnyaP</a>) AlphaFold expects an input query sequence with capitalized one-letter amino-acid types from this set:
+            (<a href="https://github.com/AnyaP">AnyaP</a>) AlphaFold expects an input query sequence with capitalized one-letter amino-acid types from this set:<br><br>
 
             <code class="language-plaintext highlighter-rouge">restypes = [ 
               'A', 'R', 'N', 'D', 'C', 'Q', 'E', 'G', 'H', 'I', 'L', 'K', 'M', 'F', 'P', 
@@ -277,32 +277,19 @@
             It might be the case that pLDDT is no longer an accurate estimate of model confidence when the model is hypercycled, but you can use your own judgement and knowledge of the target to decide when to trust the prediction. Good luck!
           </div>
 
+          <p><a href="https://github.com/deepmind/alphafold/issues/147">Issue 147: skip Amber relaxation</a></p>
+          <div class="message">
+            (<a href="https://github.com/tfgg">tfgg</a>) The easiest thing to do right now would be to comment out these lines: <br><br>
 
+            <a href="https://github.com/deepmind/alphafold/blob/main/run_alphafold.py#L183-L193">https://github.com/deepmind/alphafold/blob/main/run_alphafold.py#L183-L193</a><br><br>
+            
+            and replace them with<br><br>
+            
+            <code class="language-plaintext highlighter-rouge">relaxed_pdbs[model_name] = protein.to_pdb(unrelaxed_protein)</code><br><br>
+            
+            I haven't tested this but this should write out the unrelaxed proteins at the end, and skip the relax step.
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-          <code class="language-plaintext highlighter-rouge">&lt;code&gt;</code> 
-
-
-
-
-
-
-
-
-
-
+          </div>
 
 
 
