@@ -184,7 +184,6 @@
             (<a href="https://github.com/tfgg">tfgg</a>) We require version of 0.1.69 jaxlib to be able to use CUDA unified memory for running long sequences. If you don't need this you can probably run with 0.1.68, but that might be related to the illegal address error that you see. 
           </div>
 
-
           <p><a href="https://github.com/deepmind/alphafold/issues/53">Issue 53: GDT and lDDT Scores</a></p>
           <div class="message">
             (<a href="https://github.com/abridgland">abridgland</a>) There are a number of external tools available for computing these metrics. For GDT consider using LGA <a href="http://proteinmodel.org/AS2TS/LGA/lga.html">(http://proteinmodel.org/AS2TS/LGA/lga.html)</a> and for lDDT consider the SWISS-MODEL server <a href="https://swissmodel.expasy.org/lddt">(https://swissmodel.expasy.org/lddt)</a>. These tools are reference implementations for their respective metrics. Please note that the lDDT scores will be computed on all atoms, not just C-alpha atoms. When we use the latter in our paper it is referred to as lDDT-Ca. 
@@ -211,7 +210,7 @@
 
             In general having more GPU memory won’t help speed up model inference unless you’re finding the GPU memory is full (i.e. you’re overflowing to host RAM). However you may be able to improve speed a bit by using a larger subbatch size: alphafold/alphafold/model/config.py Line 325<br><br>
 
-            <code class="language-plaintext highlighter-rouge">&lt;'subbatch_size': 4,&gt;</code> <br><br>
+            <code class="language-plaintext highlighter-rouge">'subbatch_size': 4,</code> <br><br>
             which trades memory for speed. Picking the right value will depend on your inputs and hardware. <br><br>
             
             Finally, depending on how much you care about accuracy, you could simply run just 1 or 2 models rather than all 5. I hope that helps!
@@ -231,10 +230,10 @@
           <div class="message">
             (<a href="https://github.com/AnyaP">AnyaP</a>) AlphaFold expects an input query sequence with capitalized one-letter amino-acid types from this set:
 
-            <code class="language-plaintext highlighter-rouge">&lt;restypes = [ 
+            <code class="language-plaintext highlighter-rouge">restypes = [ 
               'A', 'R', 'N', 'D', 'C', 'Q', 'E', 'G', 'H', 'I', 'L', 'K', 'M', 'F', 'P', 
               'S', 'T', 'W', 'Y', 'V' 
-          ] &gt;</code><br><br>
+          ]</code><br><br>
             
             Just to clarify, the input can't be a Multiple Sequence Alignment, so it shouldn't include '-' or lowercase characters. In case there are any unknown amino-acid types (represented by capital letters not from the set above), they can be converted to 'X' (see here), but this is unsupported on the Amber relaxation stage.
           </div>
@@ -269,8 +268,7 @@
           <div class="message">
             (<a href="https://github.com/tfgg">tfgg</a>) You can change the number of recycling iterations in AlphaFold by changing these two configuration options (to the same new number): <br><br>
 
-            <code class="language-plaintext highlighter-rouge">&lt;config.data.common.num_recycle
-              config.model.num_recycle &gt;</code><br><br>
+            <code class="language-plaintext highlighter-rouge">config.data.common.num_recycle<br>config.model.num_recycle</code><br><br>
 
             this could be done, for example, in this function.<br><br>
 
