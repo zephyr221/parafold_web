@@ -253,7 +253,7 @@
             (<a href="https://github.com/AnyaP">AnyaP</a>) You could try increasing the value of XLA_PYTHON_CLIENT_MEM_FRACTION flag, which is set to 4.0 by default:
             alphafold/docker/run_docker.py Line 185<br><br>
             
-            <code class="language-plaintext highlighter-rouge">&lt;'XLA_PYTHON_CLIENT_MEM_FRACTION': '4.0', &gt;</code> <br><br>
+            <code class="language-plaintext highlighter-rouge">'XLA_PYTHON_CLIENT_MEM_FRACTION': '4.0', </code> <br><br>
              
             Currently this allows allocating no more than 4*GPU_RAM in total, so you could be hitting this limit.<br><br>
 
